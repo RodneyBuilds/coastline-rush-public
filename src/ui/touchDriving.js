@@ -1,6 +1,7 @@
 import { input, clearKeys } from "../core/input.js";
 import { touchDevice } from "../core/device.js";
 import "./touchDriving.css";
+import { installMobileGarage } from "./mobileGarage.js";
 
 function installTouchDriving({ game, pause }) {
   if (!touchDevice) return { update() {} };
@@ -12,6 +13,7 @@ function installTouchDriving({ game, pause }) {
   document.getElementById("btn-demo").textContent = "Back to demo";
   document.getElementById("btn-again").textContent = "Back to garage";
   document.querySelector("#select .panel-title").textContent = "Choose your ride";
+  installMobileGarage();
   const root = document.createElement("div");
   root.id = "touch-driving";
   root.hidden = true;
@@ -38,11 +40,24 @@ function installTouchDriving({ game, pause }) {
       sync();
     };
     const release = event => { held.delete(event.pointerId); sync(); };
+    button.onpointermove = event => {
+      if (!held.has(event.pointerId) || !button.dataset.steer) return;
+      const target = document.elementFromPoint(event.clientX, event.clientY)?.closest("[data-steer]");
+      if (target && root.contains(target)) { held.set(event.pointerId, target); sync(); }
+    };
     button.onpointerup = release;
     button.onpointercancel = release;
     button.onlostpointercapture = release;
     button.oncontextmenu = event => event.preventDefault();
   }
+  const playSurface = target => game.state === "drive" && !game.paused && !document.querySelector("dialog[open]") && !target?.closest?.("#drive-controls, #pause-panel, dialog");
+  const preventGesture = event => { if (playSurface(event.target) && event.cancelable) event.preventDefault(); };
+  for (const type of ["touchstart", "touchmove", "touchend", "gesturestart", "gesturechange", "gestureend", "contextmenu", "selectstart", "dragstart"]) {
+    document.addEventListener(type, preventGesture, { passive: false });
+  }
+  document.addEventListener("selectionchange", () => {
+    if (game.state === "drive" && !game.paused && getSelection()?.rangeCount) getSelection().removeAllRanges();
+  });
   const interrupt = () => {
     reset();
     input.touchActive = false;

@@ -60,7 +60,7 @@ class SelectScreen {
   handleInput(input) {
     input.leftEdge && this.setCar(this.carIndex - 1), input.rightEdge && this.setCar(this.carIndex + 1), input.upEdge && this.setMusic(this.musicIndex - 1), input.downEdge && this.setMusic(this.musicIndex + 1), input.easyEdge && this.setEasy(!this.easyMode);
     const card = this.cards[this.carIndex], screen = document.getElementById("select"), active = document.activeElement, navigateCars = input.leftEdge || input.rightEdge, enteringMenu = !screen.contains(active);
-    card && active !== card && screen.classList.contains("show") && !document.querySelector("dialog[open]") && (navigateCars || enteringMenu) && card.focus({ preventScroll: true });
+    card && card.getClientRects().length > 0 && active !== card && screen.classList.contains("show") && !document.querySelector("dialog[open]") && (navigateCars || enteringMenu) && card.focus({ preventScroll: true });
   }
 }
 export {

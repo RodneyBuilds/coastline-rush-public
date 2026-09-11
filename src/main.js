@@ -202,7 +202,7 @@ const canvas = $("game-canvas"), { renderer, scene, camera, composer, bloomPass,
 applyAnisotropy(renderer), preloadTrafficModels(), preloadPlayerModels();
 const lighting = new LightingRig(scene, renderer), clouds = new CloudLayer(scene), ocean = new Ocean(scene), chase = new ChaseCamera(camera), viewer = new Viewer();
 chase.shakeEnabled = !reducedMotion, ocean.animated = !reducedMotion;
-const P = createPlayerState(), quality = new QualityGovernor({ renderer, bloomPass, aoPass, onLevel: (level) => { lighting.setQuality(level); composer.setPixelRatio(renderer.getPixelRatio()); if (touchDevice) renderer.shadowMap.enabled = level < 2; } });
+const P = createPlayerState(), quality = new QualityGovernor({ targetFPS: () => loop.getFrameLimit(), renderer, bloomPass, aoPass, onLevel: (level) => { lighting.setQuality(level); composer.setPixelRatio(renderer.getPixelRatio()); if (touchDevice) renderer.shadowMap.enabled = level < 2; } });
 let lastCounts = { programs: 0, textures: 0, geometries: 0, heap: 0 }, lastFrameDelta = {};
 function renderCounts() {
   const m = performance.memory;

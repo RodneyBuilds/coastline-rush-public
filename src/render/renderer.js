@@ -11,7 +11,7 @@ function fogDensityFor(fogFar) {
 }
 function createRenderer(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: !touchDevice, powerPreference: touchDevice ? "default" : "high-performance" });
-  renderer.setSize(innerWidth, innerHeight), renderer.setPixelRatio(RENDER_TOKENS.PIXEL_RATIO), renderer.toneMapping = RENDER_TOKENS.TONE_MAPPING, renderer.toneMappingExposure = RENDER_TOKENS.TONE_EXPOSURE, renderer.shadowMap.enabled = true, renderer.shadowMap.type = RENDER_TOKENS.SHADOW_TYPE;
+  renderer.setSize(innerWidth, innerHeight, false), renderer.setPixelRatio(RENDER_TOKENS.PIXEL_RATIO), renderer.toneMapping = RENDER_TOKENS.TONE_MAPPING, renderer.toneMappingExposure = RENDER_TOKENS.TONE_EXPOSURE, renderer.shadowMap.enabled = true, renderer.shadowMap.type = RENDER_TOKENS.SHADOW_TYPE;
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(RENDER_TOKENS.FOG_COLOR, RENDER_TOKENS.FOG_DENSITY);
   const camera = new THREE.PerspectiveCamera(RENDER_TOKENS.CAMERA_FOV, innerWidth / innerHeight, RENDER_TOKENS.CAMERA_NEAR, RENDER_TOKENS.CAMERA_FAR), samples = renderer.capabilities.isWebGL2 ? Math.min(touchDevice ? 2 : RENDER_TOKENS.MSAA_SAMPLES, renderer.capabilities.maxSamples || 0) : 0, target = new THREE.WebGLRenderTarget(Math.max(1, innerWidth), Math.max(1, innerHeight), { type: THREE.HalfFloatType, samples });
@@ -22,12 +22,38 @@ function createRenderer(canvas) {
   composer.addPass(aoPass);
   const bloomPass = createBloomPass();
   composer.addPass(bloomPass), composer.addPass(new OutputPass());
+  let width = 0, height = 0, resizeFrame = 0;
   const setSize = () => {
-    camera.aspect = innerWidth / innerHeight, camera.updateProjectionMatrix(), renderer.setSize(innerWidth, innerHeight), composer.setSize(innerWidth, innerHeight);
+    const bounds = canvas.getBoundingClientRect();
+    const nextWidth = Math.max(1, Math.round(bounds.width));
+    const nextHeight = Math.max(1, Math.round(bounds.height));
+    if (nextWidth === width && nextHeight === height) return;
+    width = nextWidth;
+    height = nextHeight;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height, false);
+    composer.setSize(width, height);
   };
-  return addEventListener("resize", setSize), { renderer, scene, camera, composer, bloomPass, aoPass, setSize, dispose() {
-    removeEventListener("resize", setSize), aoPass.dispose(), composer.dispose(), renderer.dispose();
+  const scheduleSize = () => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(setSize);
+  };
+  const observer = new ResizeObserver(scheduleSize);
+  observer.observe(canvas);
+  addEventListener("resize", scheduleSize);
+  addEventListener("pageshow", scheduleSize);
+  visualViewport?.addEventListener("resize", scheduleSize);
+  setSize();
+  return { renderer, scene, camera, composer, bloomPass, aoPass, setSize, dispose() {
+    observer.disconnect();
+    cancelAnimationFrame(resizeFrame);
+    removeEventListener("resize", scheduleSize);
+    removeEventListener("pageshow", scheduleSize);
+    visualViewport?.removeEventListener("resize", scheduleSize);
+    aoPass.dispose(); composer.dispose(); renderer.dispose();
   } };
+
 }
 function applyStageFog(scene, camera, lighting) {
   scene.fog.color.setHex(lighting.fogColor), scene.fog.density = fogDensityFor(lighting.fogFar), camera.far = Math.max(lighting.fogFar, RENDER_TOKENS.MIN_FAR_PLANE), camera.updateProjectionMatrix();

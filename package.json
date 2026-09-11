@@ -11,7 +11,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node tests/generic-fleet.mjs && node tests/public-runtime.mjs && node tests/mobile-runtime.mjs && node tests/frame-limit.mjs && node tests/input-controls.mjs"
+    "test": "node tests/generic-fleet.mjs && node tests/public-runtime.mjs && node tests/mobile-runtime.mjs && node tests/frame-limit.mjs && node tests/input-controls.mjs && node tests/quality-target.mjs"
   },
   "dependencies": {
     "three": "^0.160.1"

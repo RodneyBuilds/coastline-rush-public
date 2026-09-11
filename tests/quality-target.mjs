@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { QualityGovernor } from '../src/render/quality.js';
+const make = targetFPS => new QualityGovernor({ renderer: { setPixelRatio() {}, shadowMap: {} }, bloomPass: {}, aoPass: {}, targetFPS: () => targetFPS });
+const thirty = make(30);
+for (let i = 0; i < 900; i++) thirty.update(1 / 30);
+assert.equal(thirty.level, 0);
+const overloaded = make(60);
+for (let i = 0; i < 300; i++) overloaded.update(1 / 30);
+assert.equal(overloaded.level, 2);
+console.log('PASS Auto respects a 30 FPS cap and reduces quality under genuine overload');

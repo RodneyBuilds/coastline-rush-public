@@ -37,25 +37,64 @@ try {
   await page.goto(url);
   await page.waitForFunction(() => window.__clr?.world && !window.__clr.entering);
   assert.equal(await page.locator('#device-notice').isVisible(), false);
-  assert.equal(await page.evaluate(() => window.__clr.quality.level), 2);
+  assert.equal(await page.evaluate(() => window.__clr.quality.level), 1);
   assert.equal(await page.evaluate(() => localStorage.getItem('coastline.mobileFrameLimit')), '30');
   await page.locator('#btn-start').tap();
   await page.waitForFunction(() => window.__clr.game.state === 'select');
   await page.screenshot({ path: 'screenshots/mobile-trial/garage.png' });
+  for (const section of ['music', 'settings', 'ride']) {
+    await page.locator(`#garage-tab-${section}`).tap();
+    assert.equal(await page.locator(`#garage-panel-${section}`).isVisible(), true);
+    const go = await page.locator('#btn-go').boundingBox();
+    assert(go.y >= 0 && go.y + go.height <= 430);
+    assert(go.x + go.width > 880);
+    await page.screenshot({ path: `screenshots/mobile-trial/garage-${section}.png` });
+  }
+  await page.setViewportSize({ width: 932, height: 320 });
+  const compactGo = await page.locator('#btn-go').boundingBox();
+  assert(compactGo.y >= 0 && compactGo.y + compactGo.height <= 320);
+  await page.setViewportSize({ width: 932, height: 430 });
+  await page.locator('#garage-tab-settings').tap();
   await page.locator('#drive-mode').selectOption('free');
+  await page.locator('#garage-tab-ride').tap();
   await page.locator('#btn-go').tap();
   await page.waitForFunction(() => window.__clr.game.state === 'drive' && !document.querySelector('#race-sequence'));
   await page.waitForFunction(() => window.__clr.P.speed > 5);
   if (process.env.CLR_TEST_AUDIO_FALLBACK === '1') await page.waitForFunction(() => window.decodedAudioCount > 5);
   assert.equal(await page.locator('#touch-driving').count(), 1);
+  const protection = await page.evaluate(async () => {
+    const k = window.__clr, canvas = k.renderer.domElement;
+    const menu = new Event('contextmenu', { bubbles: true, cancelable: true });
+    canvas.dispatchEvent(menu);
+    const select = new Event('selectstart', { bubbles: true, cancelable: true });
+    document.getElementById('speed').dispatchEvent(select);
+    const range = document.createRange(); range.selectNodeContents(document.getElementById('speed'));
+    getSelection().addRange(range);
+    await new Promise(resolve => setTimeout(resolve, 100));
+    const rect = canvas.getBoundingClientRect();
+    return { menu: menu.defaultPrevented, select: select.defaultPrevented, selected: getSelection().toString(), css: getComputedStyle(document.getElementById('speed')).webkitUserSelect, width: rect.width, height: rect.height, pixels: canvas.width, ratio: k.renderer.getPixelRatio(), shadow: k.renderer.shadowMap.enabled };
+  });
+  assert(protection.menu && protection.select);
+  assert.equal(protection.selected, '');
+  assert.equal(protection.css, 'none');
+  assert.equal(protection.width, 932);
+  assert.equal(protection.height, 430);
+  assert.equal(protection.pixels, Math.floor(932 * 1.25));
+  assert(protection.shadow);
 
   const left = await page.locator('[data-steer="-1"]').boundingBox();
   const brake = await page.locator('#touch-brake').boundingBox();
+  const right = await page.locator('[data-steer="1"]').boundingBox();
   const point = (b, id) => ({ x: b.x + b.width / 2, y: b.y + b.height / 2, id });
   if (engineName === 'chromium') {
   const cdp = await page.context().newCDPSession(page);
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point(left, 1), point(brake, 2)] });
   await page.waitForFunction(() => window.__clr.input.steer < -0.1 && window.__clr.input.brake > 0.5);
+  await page.waitForTimeout(2200);
+  assert.equal(await page.evaluate(() => window.__clr.input.touchSteer), -1);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [point(right, 1), point(brake, 2)] });
+  await page.waitForFunction(() => window.__clr.input.touchSteer === 1);
+  assert.equal(await page.evaluate(() => window.__clr.input.touchBrake), 1);
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
   } else {
     await page.mouse.move(left.x + left.width / 2, left.y + left.height / 2);
@@ -74,6 +113,7 @@ try {
   await page.waitForFunction(() => window.__clr.game.paused);
   assert.equal(await page.locator('#device-notice').isVisible(), true);
   await page.setViewportSize({ width: 932, height: 430 });
+  await page.waitForFunction(() => window.__clr.renderer.domElement.width === Math.floor(932 * window.__clr.renderer.getPixelRatio()));
   assert.equal(await page.evaluate(() => window.__clr.game.paused), true);
   await page.locator('#resume-drive').tap();
   await page.screenshot({ path: 'screenshots/mobile-trial/driving.png' });
@@ -119,6 +159,6 @@ try {
   }
   assert.deepEqual(errors, []);
   await mkdir('outputs', { recursive: true });
-  await writeFile(`outputs/mobile-runtime-${engineName}.json`, JSON.stringify({ engineName, audio: await page.evaluate(() => ({ supported: !!(window.AudioContext || window.webkitAudioContext), fallbackDecoded: window.decodedAudioCount || 0 })), clearance, errors, tests: ['touch launch', 'automatic acceleration', engineName === 'chromium' ? 'simultaneous steering and braking with touch cancellation' : 'held steering and brake tap', 'pause/resume', 'rotation pause', 'city bridge clearance'] }, null, 2));
+  await writeFile(`outputs/mobile-runtime-${engineName}.json`, JSON.stringify({ engineName, protection, audio: await page.evaluate(() => ({ supported: !!(window.AudioContext || window.webkitAudioContext), fallbackDecoded: window.decodedAudioCount || 0 })), clearance, errors, tests: ['touch launch', 'automatic acceleration', engineName === 'chromium' ? 'simultaneous steering and braking with touch cancellation' : 'held steering and brake tap', 'pause/resume', 'rotation pause', 'city bridge clearance'] }, null, 2));
   console.log(engineName, 'PASS mobile flow, input release, rotation pause, and bridge clearance', clearance);
 } finally { await browser?.close(); server.kill(); }

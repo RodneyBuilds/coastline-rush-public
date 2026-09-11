@@ -1,8 +1,8 @@
 import { touchDevice } from "../core/device.js";
 function installGraphicsSettings(quality) {
-  let value = touchDevice ? "2" : "auto";
+  let value = touchDevice ? "1" : "auto";
   try {
-    value = localStorage.getItem(touchDevice ? "coastline.mobileGraphics" : "coastline.graphics") || value;
+    value = localStorage.getItem(touchDevice ? "coastline.mobileGraphics.v2" : "coastline.graphics") || value;
   } catch {
   }
   ["auto", "0", "1", "2"].includes(value) || (value = "auto");
@@ -10,7 +10,7 @@ function installGraphicsSettings(quality) {
     value === "auto" ? (quality.pinned = null, quality.enabled = true, quality.reset()) : quality.pin(Number(value));
     for (const control of controls) control.value = value;
     try {
-      localStorage.setItem(touchDevice ? "coastline.mobileGraphics" : "coastline.graphics", value);
+      localStorage.setItem(touchDevice ? "coastline.mobileGraphics.v2" : "coastline.graphics", value);
     } catch {
     }
   };
@@ -19,7 +19,7 @@ function installGraphicsSettings(quality) {
     const label = document.createElement("label");
     label.className = "graphics-setting", label.textContent = "Graphics ";
     const select = document.createElement("select");
-    select.setAttribute("aria-label", "Graphics quality"), select.innerHTML = '<option value="auto">Auto</option><option value="0">High</option><option value="1">Medium</option><option value="2">Low</option>', label.append(select), parent.append(label), controls.push(select), select.onchange = () => {
+    select.setAttribute("aria-label", "Graphics quality"), select.innerHTML = '<option value="auto">Auto</option><option value="0">High</option><option value="1">Medium</option><option value="2">Low</option>', touchDevice && (select.options[1].textContent = 'High detail', select.options[2].textContent = 'Balanced', select.options[3].textContent = 'Battery saver'), label.append(select), parent.append(label), controls.push(select), select.onchange = () => {
       value = select.value, apply();
     };
   }

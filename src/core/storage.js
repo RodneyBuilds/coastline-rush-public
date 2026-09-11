@@ -1,4 +1,4 @@
-const BEST_TIMES_KEY = "clr.bestTimes.v1", SETTINGS_KEY = "clr.settings.v1", ERROR_LOG_KEY = "clr.errors.v1", OWNED_KEYS = [BEST_TIMES_KEY, SETTINGS_KEY, ERROR_LOG_KEY, "coastline.graphics", "coastline.frameLimit", "coastline.mobileGraphics", "coastline.mobileFrameLimit", "coastline.player-settings.v1", "coastline.drive-mode"], DEFAULT_SETTINGS = Object.freeze({ carId: "crv", musicId: 1, easyMode: false, reducedMotion: null });
+const BEST_TIMES_KEY = "clr.bestTimes.v1", SETTINGS_KEY = "clr.settings.v1", ERROR_LOG_KEY = "clr.errors.v1", OWNED_KEYS = [BEST_TIMES_KEY, SETTINGS_KEY, ERROR_LOG_KEY, "coastline.graphics", "coastline.frameLimit", "coastline.mobileGraphics", "coastline.mobileGraphics.v2", "coastline.mobileFrameLimit", "coastline.player-settings.v1", "coastline.drive-mode"], DEFAULT_SETTINGS = Object.freeze({ carId: "crv", musicId: 1, easyMode: false, reducedMotion: null });
 function available() {
   try {
     const probe = "__clr_probe__";

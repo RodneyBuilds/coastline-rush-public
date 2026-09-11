@@ -26,7 +26,9 @@ Start with Auto graphics and a 60 FPS limit.
 ## Mobile trial
 
 Touch devices use landscape orientation, automatic acceleration, steering arrows, and a brake/drift button.
-Low graphics and a 30 FPS limit are the mobile defaults; these settings are separate from desktop preferences.
+Hold an arrow to keep steering, or slide between the arrows without lifting.
+The mobile garage has separate ride, music, and settings tabs with the Drive button always available.
+Balanced graphics and a 30 FPS limit are the mobile defaults; these settings are separate from desktop preferences.
 Rotation to portrait or leaving the game pauses driving until Resume is tapped.
 Real-device Safari performance and audio interruption testing are still pending.
 For a local Wi-Fi trial, run `npm run preview -- --host 0.0.0.0` on a trusted network and open the computer's local IP address with the printed port on the phone.

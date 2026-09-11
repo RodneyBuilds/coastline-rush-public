@@ -18,6 +18,103 @@ body.touch-device #pause-panel > div { margin: auto; max-height: 80dvh; overflow
 @media (orientation: portrait) {
   body.touch-device #device-notice { display: flex; position: fixed; inset: 0; z-index: 100; background: #102334; color: white; align-items: center; justify-content: center; text-align: center; padding: 30px; font: 700 20px system-ui; }
 }
+html:has(body.touch-device), body.touch-device {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+body.touch-device, body.touch-device * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+body.touch-device input, body.touch-device textarea { -webkit-user-select: text; user-select: text; }
+body.touch-device button, body.touch-device select { font-family: Arial, sans-serif; }
+body.touch-device select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #142d43;
+  color: #f0f7fc;
+  border: 1px solid #718da4;
+  border-radius: 6px;
+  padding: 8px 28px 8px 10px;
+  background-image: linear-gradient(45deg, transparent 50%, #f0f7fc 50%), linear-gradient(135deg, #f0f7fc 50%, transparent 50%);
+  background-position: calc(100% - 15px) 50%, calc(100% - 10px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
+body.touch-device #game-canvas, body.touch-device .screen, body.touch-device #hud {
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  box-sizing: border-box;
+}
+body.touch-device #hud, body.touch-device #announcer-caption { touch-action: none; }
+body.touch-device #touch-driving {
+  left: max(28px, calc(env(safe-area-inset-left) + 10px));
+  right: max(28px, calc(env(safe-area-inset-right) + 10px));
+  bottom: max(28px, calc(env(safe-area-inset-bottom) + 8px));
+  touch-action: none;
+}
+body.touch-device #touch-driving button { touch-action: none; min-width: 76px; }
+body.touch-device #drift:not(.on) { display: none; }
+body.touch-device #attract { overflow: hidden; }
+body.touch-device #attract .logo-wrap { left: max(32px, env(safe-area-inset-left)); top: 25%; }
+body.touch-device #attract .logo { font-size: clamp(48px, 8.5vw, 88px); }
+body.touch-device #attract .tagline { left: max(34px, env(safe-area-inset-left)); top: auto; bottom: 21%; font-size: 15px; }
+body.touch-device #attract .press-start { left: auto; right: max(34px, env(safe-area-inset-right)); bottom: 20%; transform: none; margin: 0; padding: 16px 30px; }
+body.touch-device #attract .demo-top { top: max(18px, env(safe-area-inset-top)); padding-bottom: 10px; }
+body.touch-device #attract .demo-footer { bottom: max(14px, env(safe-area-inset-bottom)); font-size: 9px; }
+body.touch-device #attract .demo-top span:last-child { display: none; }
+body.touch-device #select.show {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 8px;
+  overflow: hidden;
+  padding: max(10px, env(safe-area-inset-top)) max(22px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(22px, env(safe-area-inset-left));
+}
+body.touch-device #select .garage-header { padding: 0; border: 0; align-items: center; }
+body.touch-device #select .garage-header h1 { font-size: 24px; margin: 0; line-height: 1.1; }
+body.touch-device #select .eyebrow { display: none; }
+body.touch-device #select .trip-tag { display: block; font-size: 8px; line-height: 1.4; }
+.mobile-garage-tabs { display: flex; gap: 8px; border-bottom: 1px solid #779ebc40; }
+body.touch-device .mobile-garage-tabs button { background: transparent; color: #b9cddd; font: 700 13px system-ui; border: 0; border-bottom: 3px solid transparent; border-radius: 0; padding: 6px 16px; }
+body.touch-device .mobile-garage-tabs button[aria-selected="true"] { border-color: #dafa78; color: #dafa78; }
+.mobile-garage-content { min-height: 0; overflow: hidden; }
+.mobile-garage-panel { height: 100%; overflow: auto; overscroll-behavior: contain; }
+.mobile-garage-panel[hidden] { display: none; }
+body.touch-device #select .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; height: 100%; width: 100%; max-width: none; }
+body.touch-device #select .car-card { width: auto; min-width: 0; min-height: 0; margin: 0; padding: 10px; display: flex; flex-direction: column; justify-content: center; border-radius: 12px; box-sizing: border-box; }
+body.touch-device #select .car-card.focused { padding: 9px; }
+body.touch-device #select .car-art { height: min(23dvh, 112px); min-height: 44px; flex-shrink: 1; }
+body.touch-device #select .car-name { font-size: clamp(13px, 1.9vw, 19px); line-height: 1.1; margin: 2px 0; }
+body.touch-device #select .car-desc { font-size: 10px; margin: 5px 0 0; }
+body.touch-device #select .car-flavor { font-size: 10px; margin-top: 4px; line-height: 1.3; }
+body.touch-device #select .car-card.focused::before { font-size: 8px; top: 6px; right: 6px; padding: 3px 5px; }
+body.touch-device #select .select-lower { grid-template-columns: 1fr 1fr; gap: 12px; }
+body.touch-device #select .music, body.touch-device #select .routemap { padding: 12px; }
+body.touch-device #select .easy-row { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; gap: 10px; }
+body.touch-device #select .easy-what { display: none; }
+body.touch-device #select .easy-row label { display: flex; flex-direction: column; align-items: stretch; gap: 2px; font-size: 11px; }
+body.touch-device #select .easy-row button { font-size: 11px; padding: 10px; }
+body.touch-device #select .easy-row select { width: 100%; box-sizing: border-box; font-size: 13px; }
+.mobile-garage-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #779ebc40; padding-top: 8px; }
+body.touch-device #select .go-row { width: auto; gap: 0; margin: 0; }
+body.touch-device #select .go-row .hint { display: none; }
+body.touch-device #select #btn-go { margin: 0; padding: 10px 28px; font-size: 16px; }
+body.touch-device #select #btn-demo { margin: 0; font-size: 11px; }
+@media (max-height: 360px) {
+  body.touch-device #select .car-flavor { display: none; }
+  body.touch-device #select .garage-header h1 { font-size: 20px; }
+  body.touch-device #select .car-art { height: 55px; }
+  body.touch-device #attract .logo { font-size: 58px; }
+}
 @media (max-height: 500px) {
   body.touch-device #select { justify-content: flex-start; padding-top: 20px; padding-bottom: 30px; }
   body.touch-device #results { justify-content: flex-start; }
