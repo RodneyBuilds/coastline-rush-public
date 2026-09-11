@@ -1,3 +1,4 @@
+import { touchDevice } from "../core/device.js";
 import * as THREE from "three";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
@@ -9,11 +10,11 @@ function fogDensityFor(fogFar) {
   return FOG_K / Math.max(1, fogFar);
 }
 function createRenderer(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !touchDevice, powerPreference: touchDevice ? "default" : "high-performance" });
   renderer.setSize(innerWidth, innerHeight), renderer.setPixelRatio(RENDER_TOKENS.PIXEL_RATIO), renderer.toneMapping = RENDER_TOKENS.TONE_MAPPING, renderer.toneMappingExposure = RENDER_TOKENS.TONE_EXPOSURE, renderer.shadowMap.enabled = true, renderer.shadowMap.type = RENDER_TOKENS.SHADOW_TYPE;
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(RENDER_TOKENS.FOG_COLOR, RENDER_TOKENS.FOG_DENSITY);
-  const camera = new THREE.PerspectiveCamera(RENDER_TOKENS.CAMERA_FOV, innerWidth / innerHeight, RENDER_TOKENS.CAMERA_NEAR, RENDER_TOKENS.CAMERA_FAR), samples = renderer.capabilities.isWebGL2 ? Math.min(RENDER_TOKENS.MSAA_SAMPLES, renderer.capabilities.maxSamples || 0) : 0, target = new THREE.WebGLRenderTarget(Math.max(1, innerWidth), Math.max(1, innerHeight), { type: THREE.HalfFloatType, samples });
+  const camera = new THREE.PerspectiveCamera(RENDER_TOKENS.CAMERA_FOV, innerWidth / innerHeight, RENDER_TOKENS.CAMERA_NEAR, RENDER_TOKENS.CAMERA_FAR), samples = renderer.capabilities.isWebGL2 ? Math.min(touchDevice ? 2 : RENDER_TOKENS.MSAA_SAMPLES, renderer.capabilities.maxSamples || 0) : 0, target = new THREE.WebGLRenderTarget(Math.max(1, innerWidth), Math.max(1, innerHeight), { type: THREE.HalfFloatType, samples });
   target.texture.name = "EffectComposer.rt1";
   const composer = new EffectComposer(renderer, target);
   composer.addPass(new RenderPass(scene, camera));

@@ -1,15 +1,16 @@
+import { touchDevice } from "../core/device.js";
 function installFrameRateSettings(loop) {
-  let value = "60";
+  let value = touchDevice ? "30" : "60";
   try {
-    value = localStorage.getItem("coastline.frameLimit") || "60";
+    value = localStorage.getItem(touchDevice ? "coastline.mobileFrameLimit" : "coastline.frameLimit") || value;
   } catch {
   }
-  ["60", "120", "0"].includes(value) || (value = "60");
+  ["30", "60", "120", "0"].includes(value) || (value = "60");
   const controls = [], apply = () => {
     loop.setFrameLimit(Number(value));
     for (const control of controls) control.value = value;
     try {
-      localStorage.setItem("coastline.frameLimit", value);
+      localStorage.setItem(touchDevice ? "coastline.mobileFrameLimit" : "coastline.frameLimit", value);
     } catch {
     }
   };
@@ -18,7 +19,7 @@ function installFrameRateSettings(loop) {
     const label = document.createElement("label");
     label.className = "graphics-setting", label.textContent = "Frame rate ";
     const select = document.createElement("select");
-    select.setAttribute("aria-label", "Frame rate limit"), select.innerHTML = '<option value="60">60 FPS (recommended)</option><option value="120">120 FPS</option><option value="0">Unlimited</option>', label.append(select), parent.append(label), controls.push(select), select.onchange = () => {
+    select.setAttribute("aria-label", "Frame rate limit"), select.innerHTML = '<option value="30">30 FPS (battery saver)</option><option value="60">60 FPS</option><option value="120">120 FPS</option><option value="0">Unlimited</option>', label.append(select), parent.append(label), controls.push(select), select.onchange = () => {
       value = select.value, apply();
     };
   }

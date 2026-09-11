@@ -1,3 +1,5 @@
+import { touchDevice } from "./core/device.js";
+import { installTouchDriving } from "./ui/touchDriving.js";
 import * as THREE from "three";
 import { FIXED_DT, WATERLINE, ROAD_MIN_CLEARANCE, DRIFT_BRAKE_SCALE, BRAKE_TAP_GRACE, shapeSteer } from "./physics/constants.js";
 import { CARS, carIndexById } from "./physics/cars.js";
@@ -200,7 +202,7 @@ const canvas = $("game-canvas"), { renderer, scene, camera, composer, bloomPass,
 applyAnisotropy(renderer), preloadTrafficModels(), preloadPlayerModels();
 const lighting = new LightingRig(scene, renderer), clouds = new CloudLayer(scene), ocean = new Ocean(scene), chase = new ChaseCamera(camera), viewer = new Viewer();
 chase.shakeEnabled = !reducedMotion, ocean.animated = !reducedMotion;
-const P = createPlayerState(), quality = new QualityGovernor({ renderer, bloomPass, aoPass, onLevel: (level) => lighting.setQuality(level) });
+const P = createPlayerState(), quality = new QualityGovernor({ renderer, bloomPass, aoPass, onLevel: (level) => { lighting.setQuality(level); composer.setPixelRatio(renderer.getPixelRatio()); if (touchDevice) renderer.shadowMap.enabled = level < 2; } });
 let lastCounts = { programs: 0, textures: 0, geometries: 0, heap: 0 }, lastFrameDelta = {};
 function renderCounts() {
   const m = performance.memory;
@@ -543,6 +545,7 @@ function blendIntoNextStage() {
   k <= 0 || (lighting.applyBlend(stage.lighting, prebuilt.def.lighting, k), blendStageFog(scene, camera, stage.lighting, prebuilt.def.lighting, k));
 }
 function frame(dt, rawSeconds = dt) {
+  touchDriving?.update();
   if (pollInput(dt), menuFrame(), game.state === "drive" && sim && world && !entering) {
     const progress = sim.progress();
     chase.update(P, world.roads.legs[P.leg], dt), lighting.follow(P.pos), viewer.begin(camera, P), viewer.ownedByPlayer = true, starting || world.update(dt, viewer), prebuilt && prebuilt.ready && (viewer.ownedByPlayer = false, prebuilt.world.update(dt, viewer), prebuilt.world.landmarks.update(camera.position)), retiring && retiring.world !== world && (viewer.ownedByPlayer = false, retiring.world.update(dt, viewer)), retiring && !prebuilt?.steps && retirementEligible() && beginRetirement(), blendIntoNextStage(), world.updateChapters(progress, lighting, stage.lighting), world.landmarks.update(camera.position);
@@ -556,8 +559,9 @@ function frame(dt, rawSeconds = dt) {
   lastCounts = counts;
 }
 const loop = createLoop({ onFrame: frame, onStep: step, stepping: () => game.state === "drive" && !entering, paused: () => game.paused || document.hidden, perf });
-let driveControls;
+let driveControls, touchDriving;
 document.addEventListener("visibilitychange", () => {
+  if (document.hidden && touchDevice) driveControls?.pause();
   if (document.hidden) game.paused = true, game.state === "drive" && go("paused"), Audio.suspend();
   else {
     if (driveControls?.manualPaused) return;
@@ -565,7 +569,7 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 async function boot() {
-  installErrorLog(), prepareAnnouncements(), driveControls = installDriveControls({ game, go, loop, audio: Audio, renderer, composer, toast }), installGraphicsSettings(quality), installFrameRateSettings(loop), installPlayerSettings(), installDrivingLesson(game), installCredits(), bindCopy(), attachInput({ toast: (kind) => toast(kind === "connected" ? COPY.micro.padConnected : COPY.micro.padDisconnected), gesture: () => Audio.unlock() }), select.restore({ carIndex: game.carIndex, musicIndex: game.musicIndex, easyMode: game.easyMode }), $("btn-start").addEventListener("click", () => {
+  installErrorLog(), prepareAnnouncements(), driveControls = installDriveControls({ game, go, loop, audio: Audio, renderer, composer, toast }), installGraphicsSettings(quality), installFrameRateSettings(loop), installPlayerSettings(), installDrivingLesson(game), installCredits(), bindCopy(), attachInput({ toast: (kind) => toast(kind === "connected" ? COPY.micro.padConnected : COPY.micro.padDisconnected), gesture: () => { Audio.unlock(); prepareAnnouncements(); } }), select.restore({ carIndex: game.carIndex, musicIndex: game.musicIndex, easyMode: game.easyMode }), $("btn-start").addEventListener("click", () => {
     dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" })), dispatchEvent(new KeyboardEvent("keyup", { key: "Enter" }));
   }), $("btn-demo").addEventListener("click", () => {
     clearKeys(), showScreen("attract"), go("attract");
@@ -576,6 +580,7 @@ async function boot() {
   }), $("log-download").addEventListener("click", () => downloadLog()), addEventListener("keydown", (e) => {
     e.key === "F9" && (e.preventDefault(), clrHooks.saveReport());
   });
+  touchDriving = installTouchDriving({ game, pause: () => driveControls.pause() });
   try {
     await enterStage(FIRST_STAGE, false);
   } catch (err) {

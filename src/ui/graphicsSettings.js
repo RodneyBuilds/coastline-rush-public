@@ -1,7 +1,8 @@
+import { touchDevice } from "../core/device.js";
 function installGraphicsSettings(quality) {
-  let value = "auto";
+  let value = touchDevice ? "2" : "auto";
   try {
-    value = localStorage.getItem("coastline.graphics") || "auto";
+    value = localStorage.getItem(touchDevice ? "coastline.mobileGraphics" : "coastline.graphics") || value;
   } catch {
   }
   ["auto", "0", "1", "2"].includes(value) || (value = "auto");
@@ -9,7 +10,7 @@ function installGraphicsSettings(quality) {
     value === "auto" ? (quality.pinned = null, quality.enabled = true, quality.reset()) : quality.pin(Number(value));
     for (const control of controls) control.value = value;
     try {
-      localStorage.setItem("coastline.graphics", value);
+      localStorage.setItem(touchDevice ? "coastline.mobileGraphics" : "coastline.graphics", value);
     } catch {
     }
   };

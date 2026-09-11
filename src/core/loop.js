@@ -1,6 +1,6 @@
 import { FIXED_DT, MAX_STEPS_PER_FRAME, MAX_FRAME_DT } from "../physics/constants.js";
 function createLoop({ onFrame, onStep, stepping, paused, perf, frameLimit = 60 }) {
-  let acc = 0, last = null, running = false, handle = 0, limit = [0, 60, 120].includes(frameLimit) ? frameLimit : 60, deadline = null;
+  let acc = 0, last = null, running = false, handle = 0, limit = [0, 30, 60, 120].includes(frameLimit) ? frameLimit : 60, deadline = null;
   const frame = (now) => {
     if (!running) return;
     if (handle = requestAnimationFrame(frame), paused && paused()) {
@@ -26,7 +26,7 @@ function createLoop({ onFrame, onStep, stepping, paused, perf, frameLimit = 60 }
   }, reseed() {
     last = null, deadline = null, acc = 0;
   }, setFrameLimit(value) {
-    limit = [0, 60, 120].includes(value) ? value : 60, deadline = null;
+    limit = [0, 30, 60, 120].includes(value) ? value : 60, deadline = null;
   }, getFrameLimit() {
     return limit;
   }, stepOnce(n) {

@@ -1,3 +1,4 @@
+import { decodeFile, decoderContext } from "./decode.js";
 import { context, announcerBus, duck } from "./engine.js";
 import { getPreferences } from "../core/playerPreferences.js";
 import script from "./announcerScript.json";
@@ -8,12 +9,13 @@ const chooseCheer = createCheerPicker(), captionListeners =  new Set(), ANNOUNCE
 function onAnnouncement(listener) {
   return captionListeners.add(listener), () => captionListeners.delete(listener);
 }
-async function prepareAnnouncements() {
-  const decoder = new OfflineAudioContext(1, 1, 44100);
-  await Promise.allSettled(Object.keys(script).map(async (name) => {
-    const response = await fetch(`assets/audio/voice-${name}.ogg`);
-    response.ok && buffers.set(name, await decoder.decodeAudioData(await response.arrayBuffer()));
-  }));
+let preparation = null;
+function prepareAnnouncements() {
+  if (!decoderContext()) return Promise.resolve();
+  if (!preparation) preparation = Promise.allSettled(Object.keys(script).filter(name => !buffers.has(name)).map(async name => {
+    buffers.set(name, await decodeFile(`assets/audio/voice-${name}`));
+  })).finally(() => { preparation = null; });
+  return preparation;
 }
 function announce(name, tier = 1) {
   const now = performance.now() / 1e3, cheer = name.startsWith("cheer");

@@ -1,6 +1,6 @@
 # Music
 
-Recordings are normalized and re-encoded as Ogg audio.
+Recordings are normalized and re-encoded as Ogg audio with MP3 compatibility copies.
 
 | File | Track | Creator | Source |
 | --- | --- | --- | --- |

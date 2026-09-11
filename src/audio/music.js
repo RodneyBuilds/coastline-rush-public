@@ -1,6 +1,7 @@
+import { decodeFile } from "./decode.js";
 import { unlock, context, musicBus } from "./engine.js";
 const TRACKS = [{ id: 0, title: "PURE RACEWAY", style: "Synth racing \xB7 MintoDog" }, { id: 1, title: "BLACK DIAMOND", style: "Drum & bass \xB7 Joth" }, { id: 2, title: "HOT ROADWAY", style: "Techno \xB7 MintoDog" }], buffers =  new Map(), pending =  new Map(), failures =  new Set();
-let source = null, channel = null, currentTrack = -1, request = 0, decoder = null, spectrum = null;
+let source = null, channel = null, currentTrack = -1, request = 0, spectrum = null;
 function readSpectrum(data) {
   spectrum ? spectrum.getByteFrequencyData(data) : data.fill(0);
 }
@@ -8,10 +9,7 @@ async function prepare(id) {
   if (buffers.has(id)) return buffers.get(id);
   if (!pending.has(id)) {
     const task = (async () => {
-      const response = await fetch("assets/audio/score-" + id + ".ogg");
-      if (!response.ok) throw new Error("Soundtrack file unavailable");
-      decoder ||= new OfflineAudioContext(2, 1, 44100);
-      const buffer = await decoder.decodeAudioData(await response.arrayBuffer());
+      const buffer = await decodeFile("assets/audio/score-" + id);
       return buffers.set(id, buffer), failures.delete(id), buffer;
     })().catch((error) => {
       throw failures.add(id), error;

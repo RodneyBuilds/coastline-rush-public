@@ -1,11 +1,16 @@
+import { touchDevice } from "../core/device.js";
 function installDriveControls({ game, go, loop, audio, renderer, composer, toast }) {
   const controls = document.createElement("div");
   controls.id = "drive-controls", controls.innerHTML = '<button type="button" id="pause-drive" aria-label="Pause driving (P)">Pause \xB7 P</button><button type="button" id="save-screenshot" aria-label="Save screenshot (F8)">Photo \xB7 F8</button>', document.body.append(controls);
   const panel = document.createElement("div");
   panel.id = "pause-panel", panel.hidden = true, panel.innerHTML = '<div><p>TAKE A BREATHER</p><h2>Drive paused</h2><p>Your timer and car are stopped.</p><button type="button" id="resume-drive">Resume drive</button><p>Press P or Escape to continue. F8 saves this view.</p></div>', document.body.append(panel);
+  if (touchDevice) {
+    controls.querySelector("#pause-drive").textContent = "Pause";
+    panel.querySelector("p:last-of-type").textContent = "Tap Resume drive when ready.";
+  }
   let manual = false;
   const toggle = () => {
-    !manual && game.state !== "drive" || (manual = !manual, game.paused = manual, go(manual ? "paused" : "drive"), panel.hidden = !manual, controls.querySelector("#pause-drive").textContent = manual ? "Resume \xB7 P" : "Pause \xB7 P", manual ? audio.suspend() : (loop.reseed(), audio.resume()));
+    !manual && game.state !== "drive" || (manual = !manual, game.paused = manual, go(manual ? "paused" : "drive"), panel.hidden = !manual, dispatchEvent(new Event("driving-pause-change")), controls.querySelector("#pause-drive").textContent = touchDevice ? (manual ? "Resume" : "Pause") : (manual ? "Resume \xB7 P" : "Pause \xB7 P"), manual ? audio.suspend() : (loop.reseed(), audio.resume()));
   }, photo = () => {
     composer.render(), renderer.domElement.toBlob((blob) => {
       if (!blob) {
@@ -20,7 +25,7 @@ function installDriveControls({ game, go, loop, audio, renderer, composer, toast
     e.repeat || /INPUT|TEXTAREA|SELECT/.test(e.target?.tagName) || (e.code === "F8" && (e.preventDefault(), photo()), (e.code === "KeyP" || e.code === "Escape" && (manual || game.state === "drive")) && (e.preventDefault(), toggle()));
   }), { get manualPaused() {
     return manual;
-  } };
+  }, pause() { if (!manual && game.state === "drive") toggle(); } };
 }
 export {
   installDriveControls

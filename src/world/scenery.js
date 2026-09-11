@@ -197,7 +197,7 @@ for (const [id, kit] of Object.entries(KITS)) kit.props.push({ id: "wildflowers"
 } }] });
 class Scenery {
   constructor(scene, terrain, kitId, qualityLevel = 0, opts = {}) {
-    this.scene = scene, this.terrain = terrain, this.kitId = kitId, this.qualityLevel = qualityLevel, this.reserved = terrain.stage.landmarks.filter((row) => row.kind !== "ridge" && row.footprint.w <= 250 && row.footprint.d <= 250).map((row) => {
+    this.scene = scene, this.terrain = terrain, this.kitId = kitId, this.qualityLevel = qualityLevel, this.reserved = terrain.stage.landmarks.filter((row) => row.kind !== "ridge").map((row) => {
       const curve = terrain.roads.legs[row.leg] || terrain.roads.legs.main, p = curve.getPointAt(row.at), t = curve.getTangentAt(row.at), side = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), t).normalize();
       return p.addScaledVector(side, row.offset).addScaledVector(t, row.forward || 0), { x: p.x, z: p.z, cos: Math.cos(row.heading), sin: Math.sin(row.heading), hx: row.footprint.w * (row.kind === "span" ? 0.85 : 0.5) * (row.scale || 1), hz: row.footprint.d * 0.5 * (row.scale || 1) };
     }), this.meshes = [], this.instanceCount = 0, this.missing = !hasKit(kitId), this.built = false, this.arc = opts.arc ? { lo: opts.arc[0] - ARC_OVERLAP, hi: opts.arc[1] + ARC_OVERLAP, span: opts.arc[1] - opts.arc[0] } : null, !this.missing && (opts.defer || this._build(KITS[kitId], qualityLevel));
@@ -229,7 +229,7 @@ class Scenery {
   *_buildSteps(kit, qualityLevel) {
     const rnd = rng(kit.seed), scale = sceneryDensity(qualityLevel), m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), axis = new THREE.Vector3(0, 1, 0), sc = new THREE.Vector3(), box = this.arc ? this.terrain.arcBounds(this.arc.lo, this.arc.hi, ARC_PAD) : this.terrain.world, density = this.arc ? Math.min(1, (this.arc.span + 2 * ARC_OVERLAP) * 2) : 1;
     for (const prop of kit.props) {
-      const want = Math.max(1, Math.round(prop.want * scale * density)), reach = prop.reach ?? 3, spots = [], legs = prop.along ? this._roadTable() : null, legTotal = legs ? legs.reduce((a, l) => a + l.length, 0) : 0;
+      const want = Math.max(1, Math.round(prop.want * scale * density)), reach = prop.parts.some(part => part.facade) ? Math.max(64, prop.reach || 0) : prop.reach ?? 3, spots = [], legs = prop.along ? this._roadTable() : null, legTotal = legs ? legs.reduce((a, l) => a + l.length, 0) : 0;
       for (let i = 0; i < prop.tries && spots.length < want; i++) {
         i && i % TRY_BATCH === 0 && (yield `scenery.tries:${prop.id}`);
         let x, z;

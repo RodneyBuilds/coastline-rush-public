@@ -1,10 +1,10 @@
 # Coastline Rush
 
-A desktop-browser arcade driving game with branching coastal routes, traffic, and drifting.
+A browser arcade driving game with branching coastal routes, traffic, and drifting.
 
 ## Play
 
-Requires Node.js 20.19 or newer within 20.x, or Node.js 22.12 or newer, and a desktop browser with WebGL 2.
+Requires Node.js 20.19 or newer within 20.x, or Node.js 22.12 or newer, and a browser with WebGL 2.
 
 ```sh
 npm ci
@@ -22,6 +22,15 @@ The garage lists steering, acceleration, braking, and drift controls.
 Press P or Escape to pause, F8 to save a photo, and F9 to save a diagnostic report.
 Sound, graphics, and controller settings are available in the garage and pause menu.
 Start with Auto graphics and a 60 FPS limit.
+
+## Mobile trial
+
+Touch devices use landscape orientation, automatic acceleration, steering arrows, and a brake/drift button.
+Low graphics and a 30 FPS limit are the mobile defaults; these settings are separate from desktop preferences.
+Rotation to portrait or leaving the game pauses driving until Resume is tapped.
+Real-device Safari performance and audio interruption testing are still pending.
+For a local Wi-Fi trial, run `npm run preview -- --host 0.0.0.0` on a trusted network and open the computer's local IP address with the printed port on the phone.
+Stop the server with Ctrl+C after testing; do not configure port forwarding.
 
 ## Features
 
