@@ -1,16 +1,23 @@
 #touch-driving[hidden] { display: none; }
-#touch-driving { position: fixed; inset: auto max(20px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); display: flex; justify-content: space-between; z-index: 14; pointer-events: none; }
-#touch-driving button { pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; background: #102334d9; color: white; border: 1px solid #b9e0e9; border-radius: 18px; min-width: 70px; height: 64px; font: 700 15px system-ui; }
-#touch-driving button.held { background: #dafa84; color: #102334; }
-.touch-steering { display: flex; gap: 12px; }
-#touch-brake { padding: 0 18px; }
+#touch-driving { position: fixed; inset: 0; z-index: 14; pointer-events: none; touch-action: none; }
+#touch-steer, #touch-brake { position: absolute; bottom: 0; width: 45%; height: 44%; pointer-events: auto; touch-action: none; }
+#touch-steer { left: 0; }
+#touch-brake { right: 0; }
+.touch-hint { position: absolute; bottom: max(24px, calc(env(safe-area-inset-bottom) + 12px)); color: #e3f1f4; font: 700 10px Arial, sans-serif; letter-spacing: .09em; padding: 10px 14px; border: 1px solid #c5e1e34d; border-radius: 24px; background: #10233470; pointer-events: none; }
+#touch-steer .touch-hint { left: max(28px, calc(env(safe-area-inset-left) + 12px)); }
+#touch-brake .touch-hint { right: max(28px, calc(env(safe-area-inset-right) + 12px)); }
+#touch-brake.held .touch-hint { background: #dafa84; color: #102334; }
+#touch-steer.held .touch-hint { opacity: .25; }
+.touch-stick { position: fixed; width: 100px; height: 100px; margin: -50px; border-radius: 50%; background: #10233455; border: 1px solid #d9f5ed80; pointer-events: none; display: grid; place-items: center; }
+.touch-stick[hidden] { display: none; }
+.touch-stick span { width: 32px; height: 32px; border-radius: 50%; background: #dafa84c9; box-shadow: 0 2px 12px #10233450; }
 body.touch-device #device-notice { display: none; }
 body.touch-device .screen { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); overflow-y: auto; -webkit-overflow-scrolling: touch; }
 body.touch-device button, body.touch-device select { min-height: 44px; touch-action: manipulation; }
 body.touch-device #game-canvas { touch-action: none; }
 body.touch-device #drive-controls { top: max(8px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); }
 body.touch-device #save-screenshot { display: none; }
-body.touch-device #hud .speed-pod { bottom: 96px; right: max(18px, env(safe-area-inset-right)); }
+body.touch-device #hud .speed-pod { bottom: 72px; right: max(28px, calc(env(safe-area-inset-right) + 12px)); padding: 6px 12px; min-width: 0; border-radius: 12px; }
 body.touch-device #hud #drift { bottom: 96px; }
 body.touch-device #hud #drift-tier { bottom: 130px; font-size: 18px; }
 body.touch-device #pause-panel { overflow-y: auto; padding: 16px max(24px, env(safe-area-inset-left)); }
@@ -55,13 +62,6 @@ body.touch-device #game-canvas, body.touch-device .screen, body.touch-device #hu
   box-sizing: border-box;
 }
 body.touch-device #hud, body.touch-device #announcer-caption { touch-action: none; }
-body.touch-device #touch-driving {
-  left: max(28px, calc(env(safe-area-inset-left) + 10px));
-  right: max(28px, calc(env(safe-area-inset-right) + 10px));
-  bottom: max(28px, calc(env(safe-area-inset-bottom) + 8px));
-  touch-action: none;
-}
-body.touch-device #touch-driving button { touch-action: none; min-width: 76px; }
 body.touch-device #drift:not(.on) { display: none; }
 body.touch-device #attract { overflow: hidden; }
 body.touch-device #attract .logo-wrap { left: max(32px, env(safe-area-inset-left)); top: 25%; }
@@ -122,4 +122,17 @@ body.touch-device #select #btn-demo { margin: 0; font-size: 11px; }
   body.touch-device #hud #clock { font-size: 36px; }
   body.touch-device #hud #drift-score { top: 12px; left: max(18px, env(safe-area-inset-left)); font-size: 12px; padding: 8px; }
   body.touch-device:has(#hud.show) #toast { top: 66px; right: max(16px, env(safe-area-inset-right)); max-width: 240px; font-size: 12px; }
+}
+
+body.touch-device #hud #speed { font-size: 30px; line-height: 1; }
+body.touch-device #hud .speed-pod .unit { font-size: 9px; }
+body.touch-device #hud #fork-callout { top: max(90px, calc(env(safe-area-inset-top) + 82px)); gap: 8px; max-width: 65%; white-space: nowrap; }
+body.touch-device #hud #fork-callout span { font-size: 12px; padding: 7px 12px; border-width: 1px; border-radius: 8px; }
+body.touch-device #hud #flash { top: 132px; font-size: 16px; }
+body.touch-device #hud #drift { left: max(28px, calc(env(safe-area-inset-left) + 12px)); bottom: 76px; font-size: 12px; padding: 6px 10px; }
+body.touch-device #hud #drift-tier { bottom: 76px; font-size: 14px; }
+body.touch-device #announcer-caption { bottom: max(12px, env(safe-area-inset-bottom)); max-width: 32%; font-size: 12px; padding: 6px 10px; }
+@media (max-height: 360px) {
+  body.touch-device #hud #fork-callout { top: 70px; }
+  body.touch-device #hud #flash { top: 106px; }
 }

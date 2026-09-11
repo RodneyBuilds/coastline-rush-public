@@ -25,8 +25,9 @@ Start with Auto graphics and a 60 FPS limit.
 
 ## Mobile trial
 
-Touch devices use landscape orientation, automatic acceleration, steering arrows, and a brake/drift button.
-Hold an arrow to keep steering, or slide between the arrows without lifting.
+Touch devices use landscape orientation, automatic acceleration, floating thumb steering, and a broad brake/drift touch area.
+Touch anywhere in the lower-left area and slide left or right to steer; each new touch sets the centre.
+Hold anywhere in the lower-right area to brake or drift while steering.
 The mobile garage has separate ride, music, and settings tabs with the Drive button always available.
 Balanced graphics and a 30 FPS limit are the mobile defaults; these settings are separate from desktop preferences.
 Rotation to portrait or leaving the game pauses driving until Resume is tapped.

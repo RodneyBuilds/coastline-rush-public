@@ -5,9 +5,9 @@ const LESSON_STEPS = [["Find your pace", "Hold Up or W to accelerate. Use Left /
 function installDrivingLesson(game) {
   const steps = LESSON_STEPS.map(step => [...step]);
   if (touchDevice) {
-    steps[0][1] = "The car accelerates automatically. Hold the left or right arrow to steer.";
-    steps[1][1] = "Hold BRAKE / DRIFT to slow down before a tight corner. Release it to accelerate again.";
-    steps[3][1] = "Release the steering arrow gently between adjustments to straighten. Leave room for the recovery boost.";
+    steps[0][1] = "The car accelerates automatically. Touch anywhere in the lower-left area, then slide your thumb left or right to steer. Each new touch sets a fresh centre.";
+    steps[1][1] = "Hold anywhere in the lower-right area to slow down before a tight corner. Release it to accelerate again.";
+    steps[3][1] = "Slide your thumb back towards where it first touched to straighten gently. Leave room for the recovery boost.";
   }
   const host = document.querySelector("#select .easy-row") || document.getElementById("select"), label = document.createElement("label");
   label.className = "drive-mode", label.innerHTML = 'Drive mode <select id="drive-mode"><option value="race">Arcade race</option><option value="free">Free Drive \xB7 no timer</option></select>', host.append(label);
