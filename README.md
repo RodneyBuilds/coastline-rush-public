@@ -31,7 +31,9 @@ Hold anywhere in the lower-right area to brake or drift while steering.
 The mobile garage has separate ride, music, and settings tabs with the Drive button always available.
 Balanced graphics and a 30 FPS limit are the mobile defaults; these settings are separate from desktop preferences.
 Rotation to portrait or leaving the game pauses driving until Resume is tapped.
-Real-device Safari performance and audio interruption testing are still pending.
+Sustained real-device Safari performance and audio interruption testing remain in progress.
+Mobile High detail uses reduced-resolution soft shading and glow while retaining full-resolution scene rendering.
+If a run stutters, pause and choose Save performance report to download local timing and graphics diagnostics.
 For a local Wi-Fi trial, run `npm run preview -- --host 0.0.0.0` on a trusted network and open the computer's local IP address with the printed port on the phone.
 Stop the server with Ctrl+C after testing; do not configure port forwarding.
 

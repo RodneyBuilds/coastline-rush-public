@@ -1,7 +1,12 @@
+import { touchDevice } from "../core/device.js";
 import { GTAOPass } from "three/addons/postprocessing/GTAOPass.js";
 import { MeshNormalMaterial, NoBlending } from "three";
 const AO_TOKENS = Object.freeze({ ao: Object.freeze({ radius: 3, distanceExponent: 1.4, thickness: 1, distanceFallOff: 1, scale: 1, samples: 16, screenSpaceRadius: false }), denoise: Object.freeze({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 4, rings: 2, samples: 16 }), blendIntensity: 0.9 });
 class GroundedAOPass extends GTAOPass {
+  setSize(width, height) {
+    const scale = touchDevice ? 0.5 : 1;
+    super.setSize(Math.max(1, Math.round(width * scale)), Math.max(1, Math.round(height * scale)));
+  }
   cutoutNormals =  new WeakMap();
   normalFor(material, fallback) {
     if (!material.alphaTest) return fallback;

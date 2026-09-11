@@ -69,7 +69,7 @@ function pollInput(dt) {
     dSteer = input.touchSteer || 0;
     dBrk = input.touchBrake || 0;
     dThr = dBrk ? 0 : 1;
-    aSteer = null;
+    aSteer = Math.max(-1, Math.min(1, dSteer));
   }
   const target = dSteer, rate = Math.sign(target) !== Math.sign(input._rampSteer) || target === 0 ? RAMP_RELEASE : RAMP_ATTACK;
   input._rampSteer += (target - input._rampSteer) * Math.min(1, rate * dt), Math.abs(input._rampSteer) < 4e-3 && target === 0 && (input._rampSteer = 0), input.steerRaw = aSteer !== null ? aSteer : input._rampSteer, input.steer = shapeSteer(input.steerRaw), input.steerTarget = aSteer !== null ? aSteer : dSteer, input.analog = aSteer !== null, input._rampThr += (dThr - input._rampThr) * Math.min(1, RAMP_THROTTLE * dt), input._rampBrk += (dBrk - input._rampBrk) * Math.min(1, RAMP_BRAKE * dt), input.throttle = input._rampThr, input.brake = input._rampBrk;

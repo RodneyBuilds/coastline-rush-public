@@ -82,6 +82,18 @@ try {
   assert.equal(protection.pixels, Math.floor(932 * 1.25));
   assert(protection.shadow);
 
+  const highDetail = await page.evaluate(() => {
+    const k = window.__clr;
+    k.quality.pin(0);
+    k.captureFrame();
+    return { width: k.renderer.domElement.width, aoWidth: k.aoPass.normalRenderTarget.width, bloomWidth: k.bloomPass.renderTargetBright.width, ratio: k.renderer.getPixelRatio(), ao: k.aoPass.enabled, shadows: k.renderer.shadowMap.enabled };
+  });
+  assert.equal(highDetail.ratio, 1.75);
+  assert(highDetail.ao && highDetail.shadows);
+  assert(Math.abs(highDetail.aoWidth / highDetail.width - 0.5) < 0.01);
+  assert(Math.abs(highDetail.bloomWidth / highDetail.width - 0.25) < 0.01);
+  await page.screenshot({ path: 'screenshots/mobile-trial/high-detail-optimized.png' });
+  await page.evaluate(() => window.__clr.quality.pin(1));
   const left = await page.locator('#touch-steer').boundingBox();
   const brake = await page.locator('#touch-brake').boundingBox();
   const origin = { x: left.x + left.width / 2, y: left.y + left.height / 2, id: 1 };
@@ -132,6 +144,11 @@ try {
   await page.locator('#pause-drive').tap();
   assert.equal(await page.evaluate(() => window.__clr.game.paused), true);
   assert.equal(await page.locator('#touch-driving').isVisible(), false);
+  const downloadEvent = page.waitForEvent('download');
+  await page.locator('#save-performance-report').tap();
+  const reportDownload = await downloadEvent;
+  assert(reportDownload.suggestedFilename().startsWith('coastline-rush-report-'));
+  assert.equal(await reportDownload.failure(), null);
   await page.locator('#resume-drive').tap();
   await page.waitForFunction(() => window.__clr.input.touchActive);
   await page.setViewportSize({ width: 430, height: 932 });
@@ -184,6 +201,6 @@ try {
   }
   assert.deepEqual(errors, []);
   await mkdir('outputs', { recursive: true });
-  await writeFile(`outputs/mobile-runtime-${engineName}.json`, JSON.stringify({ engineName, protection, audio: await page.evaluate(() => ({ supported: !!(window.AudioContext || window.webkitAudioContext), fallbackDecoded: window.decodedAudioCount || 0 })), clearance, errors, tests: ['touch launch', 'automatic acceleration', engineName === 'chromium' ? 'simultaneous steering and braking with touch cancellation' : 'held steering and brake tap', 'pause/resume', 'rotation pause', 'city bridge clearance'] }, null, 2));
+  await writeFile(`outputs/mobile-runtime-${engineName}.json`, JSON.stringify({ engineName, protection, highDetail, audio: await page.evaluate(() => ({ supported: !!(window.AudioContext || window.webkitAudioContext), fallbackDecoded: window.decodedAudioCount || 0 })), clearance, errors, tests: ['touch launch', 'automatic acceleration', engineName === 'chromium' ? 'simultaneous steering and braking with touch cancellation' : 'held steering and brake tap', 'pause/resume', 'rotation pause', 'city bridge clearance'] }, null, 2));
   console.log(engineName, 'PASS mobile flow, input release, rotation pause, and bridge clearance', clearance);
 } finally { await browser?.close(); server.kill(); }

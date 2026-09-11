@@ -1,5 +1,5 @@
 import { touchDevice } from "../core/device.js";
-function installDriveControls({ game, go, loop, audio, renderer, composer, toast }) {
+function installDriveControls({ game, go, loop, audio, renderer, composer, toast, saveReport }) {
   const controls = document.createElement("div");
   controls.id = "drive-controls", controls.innerHTML = '<button type="button" id="pause-drive" aria-label="Pause driving (P)">Pause \xB7 P</button><button type="button" id="save-screenshot" aria-label="Save screenshot (F8)">Photo \xB7 F8</button>', document.body.append(controls);
   const panel = document.createElement("div");
@@ -7,6 +7,12 @@ function installDriveControls({ game, go, loop, audio, renderer, composer, toast
   if (touchDevice) {
     controls.querySelector("#pause-drive").textContent = "Pause";
     panel.querySelector("p:last-of-type").textContent = "Tap Resume drive when ready.";
+    const report = document.createElement("button");
+    report.type = "button";
+    report.id = "save-performance-report";
+    report.textContent = "Save performance report";
+    report.onclick = () => saveReport();
+    panel.firstElementChild.append(report);
   }
   let manual = false;
   const toggle = () => {

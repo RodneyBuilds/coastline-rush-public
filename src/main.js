@@ -535,7 +535,7 @@ function step(dt) {
   if (!sim || entering || starting || game.finished) return;
   sim.tick(dt, input);
   const banked = driftScore.tick(dt, P), cheerTier = driftScore.seconds >= 12 ? 3 : driftScore.seconds >= 7 ? 2 : driftScore.seconds >= 3 ? 1 : 0;
-  cheerTier > announcedDriftTier && announce("cheer", cheerTier) && (announcedDriftTier = cheerTier), driftScore.active || (announcedDriftTier = 0), $("drift-score").textContent = driftScore.active ? `DRIFT +${Math.floor(driftScore.slide).toLocaleString()}  \xD7${driftScore.multiplier}` : `SCORE ${driftScore.total.toLocaleString()}`, banked > 0 && toast(`+${banked.toLocaleString()} drift points secured`), banked >= 1e3 && announce("cheer", banked >= 7e3 ? 3 : banked >= 3e3 ? 2 : 1), game.freeDrive || (game.timeLeft -= dt), game.runTime += dt, !game.freeDrive && game.timeLeft <= 0 && game.state === "drive" && onTimeout(), stepWatch && stepWatch();
+  cheerTier > announcedDriftTier && announce("cheer", cheerTier) && (announcedDriftTier = cheerTier), driftScore.active || (announcedDriftTier = 0), banked > 0 && toast(`+${banked.toLocaleString()} drift points secured`), banked >= 1e3 && announce("cheer", banked >= 7e3 ? 3 : banked >= 3e3 ? 2 : 1), game.freeDrive || (game.timeLeft -= dt), game.runTime += dt, !game.freeDrive && game.timeLeft <= 0 && game.state === "drive" && onTimeout(), stepWatch && stepWatch();
 }
 let stepWatch = null;
 const LIGHT_BLEND_UNITS = 420;
@@ -545,11 +545,13 @@ function blendIntoNextStage() {
   k <= 0 || (lighting.applyBlend(stage.lighting, prebuilt.def.lighting, k), blendStageFog(scene, camera, stage.lighting, prebuilt.def.lighting, k));
 }
 function frame(dt, rawSeconds = dt) {
-  touchDriving?.update();
-  if (pollInput(dt), menuFrame(), game.state === "drive" && sim && world && !entering) {
+  if (menuFrame(), game.state === "drive" && sim && world && !entering) {
     const progress = sim.progress();
     chase.update(P, world.roads.legs[P.leg], dt), lighting.follow(P.pos), viewer.begin(camera, P), viewer.ownedByPlayer = true, starting || world.update(dt, viewer), prebuilt && prebuilt.ready && (viewer.ownedByPlayer = false, prebuilt.world.update(dt, viewer), prebuilt.world.landmarks.update(camera.position)), retiring && retiring.world !== world && (viewer.ownedByPlayer = false, retiring.world.update(dt, viewer)), retiring && !prebuilt?.steps && retirementEligible() && beginRetirement(), blendIntoNextStage(), world.updateChapters(progress, lighting, stage.lighting), world.landmarks.update(camera.position);
     const nearFork = !!stage.fork && P.leg === "main" && P.s > 0.72;
+    const scoreText = driftScore.active ? `DRIFT +${Math.floor(driftScore.slide).toLocaleString()}  \xD7${driftScore.multiplier}` : `SCORE ${driftScore.total.toLocaleString()}`;
+    const scoreLabel = $("drift-score");
+    if (scoreLabel.textContent !== scoreText) scoreLabel.textContent = scoreText;
     hud.update(P, game.timeLeft, progress, nearFork), tyreSmoke.update(dt, P, input, renderer.domElement.height), Audio.engineFrame(P.speed / P.carDef.maxSpeed, input.throttle, P.drifting, dt, input.brake, input.brakeHeld);
   } else world && !entering && (game.state === "attract" && P.mesh && sim ? (demo.update(dt, { P, world, sim, chase, lighting, reducedMotion: game.reducedMotion }), tyreSmoke.update(dt, P, { brake: 0, brakeHeld: 0 }, renderer.domElement.height)) : (tyreSmoke.clear(), chase.menuOrbit(performance.now() / 1e3, world.roads.entry, !game.reducedMotion)), world.update(dt));
   ocean.update(dt), clouds.update(dt, camera), !entering && !starting && !game.paused && quality.update(rawSeconds), camera.getWorldDirection(_glareForward), easeSunGlare(bloomPass, lighting.easeGlare(_glareForward)), composer.render();
@@ -558,7 +560,7 @@ function frame(dt, rawSeconds = dt) {
   for (const key of Object.keys(lastFrameDelta)) lastFrameDelta[key] || delete lastFrameDelta[key];
   lastCounts = counts;
 }
-const loop = createLoop({ onFrame: frame, onStep: step, stepping: () => game.state === "drive" && !entering, paused: () => game.paused || document.hidden, perf });
+const loop = createLoop({ onInput: dt => { touchDriving?.update(); pollInput(dt); }, onFrame: frame, onStep: step, stepping: () => game.state === "drive" && !entering, paused: () => game.paused || document.hidden, perf });
 let driveControls, touchDriving;
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && touchDevice) driveControls?.pause();
@@ -569,7 +571,7 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 async function boot() {
-  installErrorLog(), prepareAnnouncements(), driveControls = installDriveControls({ game, go, loop, audio: Audio, renderer, composer, toast }), installGraphicsSettings(quality), installFrameRateSettings(loop), installPlayerSettings(), installDrivingLesson(game), installCredits(), bindCopy(), attachInput({ toast: (kind) => toast(kind === "connected" ? COPY.micro.padConnected : COPY.micro.padDisconnected), gesture: () => { Audio.unlock(); prepareAnnouncements(); } }), select.restore({ carIndex: game.carIndex, musicIndex: game.musicIndex, easyMode: game.easyMode }), $("btn-start").addEventListener("click", () => {
+  installErrorLog(), prepareAnnouncements(), driveControls = installDriveControls({ game, go, loop, audio: Audio, renderer, composer, toast, saveReport: () => clrHooks.saveReport() }), installGraphicsSettings(quality), installFrameRateSettings(loop), installPlayerSettings(), installDrivingLesson(game), installCredits(), bindCopy(), attachInput({ toast: (kind) => toast(kind === "connected" ? COPY.micro.padConnected : COPY.micro.padDisconnected), gesture: () => { Audio.unlock(); prepareAnnouncements(); } }), select.restore({ carIndex: game.carIndex, musicIndex: game.musicIndex, easyMode: game.easyMode }), $("btn-start").addEventListener("click", () => {
     dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" })), dispatchEvent(new KeyboardEvent("keyup", { key: "Enter" }));
   }), $("btn-demo").addEventListener("click", () => {
     clearKeys(), showScreen("attract"), go("attract");
@@ -598,7 +600,7 @@ async function boot() {
   errorCount() > 0 && showLogLink(), setErrorListener(showLogLink), window.__clr = clrHooks, showScreen("attract"), go("attract"), loop.start();
 }
 const clrHooks = { game, P, input, CARS, shapeSteer, camera, CAM, quality, perf, scene, renderer, composer, THREE, chase, lighting, aoPass, bloomPass, sightLineAtCar, carRoofHeight, buildSlices, stageSwaps, saveReport() {
-  const report = { when: ( new Date()).toISOString(), agent: navigator.userAgent, screen: `${innerWidth}x${innerHeight} @${devicePixelRatio}`, state: game.state, route: game.route.slice(), stage: stage ? stage.id : null, easyMode: game.easyMode, car: CARS[game.carIndex].id, padConnected: input.padConnected, padName: input.padName, perf: perf.stats(), buildSlices: { ...buildSlices }, stageSwaps: stageSwaps.slice(), lastBuild: world ? world.buildMarks : null, heapMB: heapMB(), errors: readLog().slice(-80) }, blob = new Blob([JSON.stringify(report, null, 1)], { type: "application/json" }), url = URL.createObjectURL(blob), a = document.createElement("a");
+  const report = { when: ( new Date()).toISOString(), agent: navigator.userAgent, screen: `${innerWidth}x${innerHeight} @${devicePixelRatio}`, state: game.state, route: game.route.slice(), stage: stage ? stage.id : null, easyMode: game.easyMode, car: CARS[game.carIndex].id, padConnected: input.padConnected, padName: input.padName, perf: perf.stats(), graphics: { level: quality.level, pixelRatio: renderer.getPixelRatio(), frameLimit: loop.getFrameLimit(), automatic: quality.enabled }, buildSlices: { ...buildSlices }, stageSwaps: stageSwaps.slice(), lastBuild: world ? world.buildMarks : null, heapMB: heapMB(), errors: readLog().slice(-80) }, blob = new Blob([JSON.stringify(report, null, 1)], { type: "application/json" }), url = URL.createObjectURL(blob), a = document.createElement("a");
   return a.href = url, a.download = `coastline-rush-report-${report.when.replace(/[:.]/g, "-")}.json`, document.body.appendChild(a), a.click(), a.remove(), setTimeout(() => URL.revokeObjectURL(url), 0), console.log("[clr] report saved to your downloads folder"), report;
 }, Audio, Music, Sfx, Voices, tyreSmoke, WATERLINE, ROAD_MIN_CLEARANCE, SEABED_Y, DRIFT_BRAKE_SCALE, BRAKE_TAP_GRACE, CAM_SETTLED, get stage() {
   return stage;
