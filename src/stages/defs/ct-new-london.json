@@ -1,0 +1,247 @@
+{
+  "id": "ct-new-london",
+  "schemaVersion": 1,
+  "name": "NEW LONDON",
+  "region": "connecticut",
+  "sceneryKit": "ct-thames-headland",
+  "roadWidth": 15,
+  "startHeading": 3.141592653589793,
+  "timeLimit": 70,
+  "segments": [
+    {
+      "len": 130,
+      "curve": 0,
+      "grade": 0.02
+    },
+    {
+      "len": 260,
+      "curve": 0.01,
+      "grade": 0.1
+    },
+    {
+      "len": 210,
+      "curve": -0.011627906976744186,
+      "grade": 0.04
+    },
+    {
+      "len": 100,
+      "curve": 0,
+      "grade": -0.07
+    },
+    {
+      "len": 230,
+      "curve": 0.008695652173913044,
+      "grade": -0.09
+    },
+    {
+      "len": 90,
+      "curve": 0,
+      "grade": -0.03
+    },
+    {
+      "len": 240,
+      "curve": -0.008,
+      "grade": -0.02
+    }
+  ],
+  "lighting": {
+    "skyTurbidity": 3,
+    "rayleigh": 1.6,
+    "sunElevation": 24.2,
+    "sunAzimuth": 203,
+    "exposure": 0.86,
+    "fogColor": 13096923,
+    "fogNear": 320,
+    "fogFar": 2400,
+    "bloomThreshold": 3
+  },
+  "fork": {
+    "leftLabel": "◀ FIVE BOROUGHS",
+    "rightLabel": "BROOKLYN BRIDGE ▶",
+    "leftStage": "ny-five-boroughs",
+    "rightStage": "ny-brooklyn-bridge",
+    "offset": 7.5,
+    "throatLen": 78,
+    "islandHeight": 0.44,
+    "leftSegments": [
+      {
+        "len": 100,
+        "curve": -0.008333333333333333,
+        "grade": 0.03
+      },
+      {
+        "len": 265,
+        "curve": -0.006060606060606061,
+        "grade": 0.05
+      },
+      {
+        "len": 120,
+        "curve": 0,
+        "grade": 0.02
+      },
+      {
+        "len": 245,
+        "curve": 0.007407407407407408,
+        "grade": -0.04
+      },
+      {
+        "len": 110,
+        "curve": 0,
+        "grade": -0.05
+      },
+      {
+        "len": 200,
+        "curve": -0.006896551724137931,
+        "grade": -0.03
+      },
+      {
+        "len": 100,
+        "curve": 0,
+        "grade": -0.02
+      }
+    ],
+    "rightSegments": [
+      {
+        "len": 85,
+        "curve": 0.009523809523809525,
+        "grade": 0.06
+      },
+      {
+        "len": 255,
+        "curve": 0.010869565217391304,
+        "grade": 0.11
+      },
+      {
+        "len": 200,
+        "curve": -0.011904761904761904,
+        "grade": 0.04
+      },
+      {
+        "len": 95,
+        "curve": 0,
+        "grade": -0.09
+      },
+      {
+        "len": 195,
+        "curve": 0.01,
+        "grade": -0.12
+      },
+      {
+        "len": 95,
+        "curve": 0,
+        "grade": -0.04
+      }
+    ]
+  },
+  "checkpoints": [
+    {
+      "at": 0.75,
+      "bonus": 34,
+      "label": "OLD SAYBROOK"
+    }
+  ],
+  "traffic": {
+    "density": 0.62,
+    "lanesUsed": 4,
+    "palette": [
+      "#2f5f8a",
+      "#c58f3a",
+      "#6a4437",
+      "#2d6a5e",
+      "#93362e"
+    ]
+  },
+  "shore": {
+    "offset": 44,
+    "side": 1,
+    "legs": [
+      "main",
+      "right"
+    ]
+  },
+  "landmarks": [
+    {
+      "id": "new-london-harbor-light",
+      "place": "new-london",
+      "inWater": false,
+      "leg": "right",
+      "at": 0.3,
+      "offset": 26,
+      "heading": 1.1,
+      "scale": 1,
+      "lodTier": "far",
+      "footprint": {
+        "w": 8,
+        "d": 8,
+        "h": 27
+      }
+    },
+    {
+      "id": "gold-star-memorial-bridge",
+      "kind": "span",
+      "place": "new-london",
+      "inWater": true,
+      "leg": "main",
+      "at": 0.24,
+      "offset": 60,
+      "heading": 1.62,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 1800,
+        "d": 40,
+        "h": 44
+      }
+    },
+    {
+      "id": "nautilus-submarine-museum",
+      "place": "groton",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.44,
+      "offset": -40,
+      "heading": 1.2,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 64,
+        "d": 30,
+        "h": 16
+      }
+    },
+    {
+      "id": "avery-point-light",
+      "place": "groton",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.58,
+      "offset": 26,
+      "heading": 0.4,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 7,
+        "d": 7,
+        "h": 17
+      }
+    }
+  ],
+  "budget": {
+    "drawCalls": 260,
+    "triangles": 1400000
+  },
+  "gateway": {
+    "label": "WELCOME TO CONNECTICUT",
+    "at": 0.045
+  },
+  "markers": [
+    {
+      "label": "GROTON",
+      "at": 0.22
+    },
+    {
+      "label": "NEW LONDON",
+      "at": 0.44
+    }
+  ]
+}

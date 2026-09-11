@@ -1,0 +1,310 @@
+{
+  "id": "ct-mystic-harbor",
+  "schemaVersion": 1,
+  "name": "MYSTIC",
+  "region": "connecticut",
+  "sceneryKit": "ct-mystic",
+  "roadWidth": 15,
+  "startHeading": 3.141592653589793,
+  "timeLimit": 70,
+  "segments": [
+    {
+      "len": 150
+    },
+    {
+      "len": 280,
+      "curve": -0.00625,
+      "grade": 0.04
+    },
+    {
+      "len": 90,
+      "grade": 0.03
+    },
+    {
+      "len": 35,
+      "grade": -0.03
+    },
+    {
+      "len": 170,
+      "curve": 0.011764705882352941,
+      "grade": -0.03
+    },
+    {
+      "len": 35,
+      "grade": -0.03
+    },
+    {
+      "len": 15,
+      "grade": -0.05
+    },
+    {
+      "len": 170,
+      "curve": -0.011764705882352941,
+      "grade": -0.05
+    },
+    {
+      "len": 15,
+      "grade": -0.05
+    },
+    {
+      "len": 80,
+      "grade": -0.02
+    },
+    {
+      "len": 60.69,
+      "grade": 0.02
+    },
+    {
+      "len": 108.61,
+      "curve": 0.011764705882352941,
+      "grade": 0.02
+    },
+    {
+      "len": 60.69,
+      "grade": 0.02
+    }
+  ],
+  "lighting": {
+    "skyTurbidity": 3,
+    "rayleigh": 1.6,
+    "sunElevation": 24.4,
+    "sunAzimuth": 66,
+    "exposure": 0.86,
+    "fogColor": 13096923,
+    "fogNear": 360,
+    "fogFar": 2400,
+    "bloomThreshold": 3
+  },
+  "fork": {
+    "leftLabel": "◀ THE HUDSON",
+    "rightLabel": "FIVE BOROUGHS ▶",
+    "leftStage": "ny-hudson-shore",
+    "rightStage": "ny-five-boroughs",
+    "offset": 7.5,
+    "throatLen": 78,
+    "islandHeight": 0.44,
+    "leftSegments": [
+      {
+        "len": 17.31,
+        "grade": 0.03
+      },
+      {
+        "len": 65.38,
+        "curve": -0.011764705882352941,
+        "grade": 0.03
+      },
+      {
+        "len": 17.31,
+        "grade": 0.03
+      },
+      {
+        "len": 270,
+        "curve": -0.005263157894736842,
+        "grade": 0.04
+      },
+      {
+        "len": 130,
+        "grade": 0.01
+      },
+      {
+        "len": 54.17,
+        "grade": -0.03
+      },
+      {
+        "len": 141.67,
+        "curve": 0.011764705882352941,
+        "grade": -0.03
+      },
+      {
+        "len": 54.17,
+        "grade": -0.03
+      },
+      {
+        "len": 110,
+        "grade": -0.04
+      },
+      {
+        "len": 52.5,
+        "grade": -0.03
+      },
+      {
+        "len": 105,
+        "curve": -0.011764705882352941,
+        "grade": -0.03
+      },
+      {
+        "len": 52.5,
+        "grade": -0.03
+      },
+      {
+        "len": 100,
+        "grade": -0.02
+      }
+    ],
+    "rightSegments": [
+      {
+        "len": 10.23,
+        "grade": 0.05
+      },
+      {
+        "len": 69.55,
+        "curve": 0.011764705882352941,
+        "grade": 0.05
+      },
+      {
+        "len": 10.23,
+        "grade": 0.05
+      },
+      {
+        "len": 260,
+        "curve": 0.010526315789473684,
+        "grade": 0.09
+      },
+      {
+        "len": 3.58,
+        "grade": 0.03
+      },
+      {
+        "len": 202.84,
+        "curve": -0.011764705882352941,
+        "grade": 0.03
+      },
+      {
+        "len": 3.58,
+        "grade": 0.03
+      },
+      {
+        "len": 100,
+        "grade": -0.08
+      },
+      {
+        "len": 18.1,
+        "grade": -0.1
+      },
+      {
+        "len": 153.81,
+        "curve": 0.011764705882352941,
+        "grade": -0.1
+      },
+      {
+        "len": 18.1,
+        "grade": -0.1
+      },
+      {
+        "len": 100,
+        "grade": -0.05
+      }
+    ]
+  },
+  "checkpoints": [
+    {
+      "at": 0.75,
+      "bonus": 32,
+      "label": "NEW HAVEN"
+    }
+  ],
+  "traffic": {
+    "density": 0.42,
+    "lanesUsed": 4,
+    "palette": [
+      "#3f6f8f",
+      "#c9a25a",
+      "#6f4a3a",
+      "#35706a",
+      "#8f3a33"
+    ]
+  },
+  "shore": {
+    "offset": 44,
+    "side": 1,
+    "legs": [
+      "main",
+      "left"
+    ]
+  },
+  "landmarks": [
+    {
+      "id": "stonington-point",
+      "place": "stonington",
+      "inWater": true,
+      "leg": "left",
+      "at": 0.12,
+      "offset": 140,
+      "heading": 0.9,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 120,
+        "d": 80,
+        "h": 14
+      }
+    },
+    {
+      "id": "mystic-bascule-bridge",
+      "kind": "span",
+      "place": "mystic",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.34,
+      "offset": -80,
+      "heading": 1.5707963267948966,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 46,
+        "d": 12,
+        "h": 26
+      }
+    },
+    {
+      "id": "mystic-seaport-whaleship",
+      "place": "mystic",
+      "inWater": true,
+      "leg": "main",
+      "at": 0.41,
+      "offset": 74,
+      "heading": 0.2,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 12,
+        "d": 34,
+        "h": 30
+      }
+    },
+    {
+      "id": "mystic-aquarium",
+      "place": "mystic",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.6,
+      "offset": -108,
+      "heading": 2.8,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 90,
+        "d": 62,
+        "h": 18
+      }
+    }
+  ],
+  "budget": {
+    "drawCalls": 260,
+    "triangles": 1400000
+  },
+  "gateway": {
+    "label": "WELCOME TO CONNECTICUT",
+    "at": 0.045
+  },
+  "markers": [
+    {
+      "label": "STONINGTON",
+      "at": 0.22
+    },
+    {
+      "label": "MYSTIC",
+      "at": 0.46
+    }
+  ]
+}
