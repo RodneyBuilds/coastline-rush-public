@@ -1,8 +1,7 @@
-import { touchDevice } from "../core/device.js";
 function installFrameRateSettings(loop) {
-  let value = touchDevice ? "30" : "60";
+  let value = "60";
   try {
-    value = localStorage.getItem(touchDevice ? "coastline.mobileFrameLimit" : "coastline.frameLimit") || value;
+    value = localStorage.getItem("coastline.frameLimit") || value;
   } catch {
   }
   ["30", "60", "120", "0"].includes(value) || (value = "60");
@@ -10,7 +9,7 @@ function installFrameRateSettings(loop) {
     loop.setFrameLimit(Number(value));
     for (const control of controls) control.value = value;
     try {
-      localStorage.setItem(touchDevice ? "coastline.mobileFrameLimit" : "coastline.frameLimit", value);
+      localStorage.setItem("coastline.frameLimit", value);
     } catch {
     }
   };

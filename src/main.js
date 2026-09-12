@@ -1,5 +1,3 @@
-import { touchDevice } from "./core/device.js";
-import { installTouchDriving } from "./ui/touchDriving.js";
 import * as THREE from "three";
 import { FIXED_DT, WATERLINE, ROAD_MIN_CLEARANCE, DRIFT_BRAKE_SCALE, BRAKE_TAP_GRACE, shapeSteer } from "./physics/constants.js";
 import { CARS, carIndexById } from "./physics/cars.js";
@@ -202,7 +200,7 @@ const canvas = $("game-canvas"), { renderer, scene, camera, composer, bloomPass,
 applyAnisotropy(renderer), preloadTrafficModels(), preloadPlayerModels();
 const lighting = new LightingRig(scene, renderer), clouds = new CloudLayer(scene), ocean = new Ocean(scene), chase = new ChaseCamera(camera), viewer = new Viewer();
 chase.shakeEnabled = !reducedMotion, ocean.animated = !reducedMotion;
-const P = createPlayerState(), quality = new QualityGovernor({ targetFPS: () => loop.getFrameLimit(), renderer, bloomPass, aoPass, onLevel: (level) => { lighting.setQuality(level); composer.setPixelRatio(renderer.getPixelRatio()); if (touchDevice) renderer.shadowMap.enabled = level < 2; } });
+const P = createPlayerState(), quality = new QualityGovernor({ targetFPS: () => loop.getFrameLimit(), renderer, bloomPass, aoPass, onLevel: (level) => { lighting.setQuality(level); composer.setPixelRatio(renderer.getPixelRatio()); } });
 let lastCounts = { programs: 0, textures: 0, geometries: 0, heap: 0 }, lastFrameDelta = {};
 function renderCounts() {
   const m = performance.memory;
@@ -560,10 +558,9 @@ function frame(dt, rawSeconds = dt) {
   for (const key of Object.keys(lastFrameDelta)) lastFrameDelta[key] || delete lastFrameDelta[key];
   lastCounts = counts;
 }
-const loop = createLoop({ onInput: dt => { touchDriving?.update(); pollInput(dt); }, onFrame: frame, onStep: step, stepping: () => game.state === "drive" && !entering, paused: () => game.paused || document.hidden, perf });
-let driveControls, touchDriving;
+const loop = createLoop({ onInput: dt => { pollInput(dt); }, onFrame: frame, onStep: step, stepping: () => game.state === "drive" && !entering, paused: () => game.paused || document.hidden, perf });
+let driveControls;
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden && touchDevice) driveControls?.pause();
   if (document.hidden) game.paused = true, game.state === "drive" && go("paused"), Audio.suspend();
   else {
     if (driveControls?.manualPaused) return;
@@ -582,7 +579,6 @@ async function boot() {
   }), $("log-download").addEventListener("click", () => downloadLog()), addEventListener("keydown", (e) => {
     e.key === "F9" && (e.preventDefault(), clrHooks.saveReport());
   });
-  touchDriving = installTouchDriving({ game, pause: () => driveControls.pause() });
   try {
     await enterStage(FIRST_STAGE, false);
   } catch (err) {

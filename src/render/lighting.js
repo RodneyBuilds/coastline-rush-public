@@ -1,4 +1,3 @@
-import { touchDevice } from "../core/device.js";
 import * as THREE from "three";
 import { LandscapeSky as Sky } from "./landscapeSky.js";
 const SKY_TOKENS = Object.freeze({ turbidity: 4, rayleigh: 2.2, mieCoefficient: 45e-4, mieDirectionalG: 0.86, elevation: 7, azimuth: 206, shadowRadius: 4 }), GLARE_TIGHT = 20, GLARE_WIDE = 58, GLARE_HIGH_SUN = 30, GLARE_EXPOSURE_EASE = 0.3, GLARE_BLOOM_EASE = 0.72, GLARE_MIE_KEEP = 0.28, SHADOW_LEVELS = Object.freeze([Object.freeze({ size: 4096, half: 90 }), Object.freeze({ size: 2048, half: 45 }), Object.freeze({ size: 1024, half: 22.5 })]);
@@ -34,7 +33,7 @@ class LightingRig {
     if (i === this._shadowLevel) return;
     this._shadowLevel = i;
     const { size, half } = SHADOW_LEVELS[i];
-    const mapSize = touchDevice ? Math.min(size, i === 0 ? 2048 : 1024) : size;
+    const mapSize = size;
       this.sunLight.shadow.mapSize.set(mapSize, mapSize);
     const cam = this.sunLight.shadow.camera;
     Object.assign(cam, { left: -half, right: half, top: half, bottom: -half, near: 0.5, far: half * 6 }), cam.updateProjectionMatrix(), this.shadowDistance = half * 3, this.sunLight.shadow.map && (this.sunLight.shadow.map.dispose(), this.sunLight.shadow.map = null);

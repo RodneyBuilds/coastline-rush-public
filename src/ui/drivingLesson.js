@@ -1,14 +1,8 @@
-import { touchDevice } from "../core/device.js";
 import "./drivingLesson.css";
 import { clearKeys } from "../core/input.js";
 const LESSON_STEPS = [["Find your pace", "Hold Up or W to accelerate. Use Left / Right or A / D to steer. On a controller, use the left stick and right trigger."], ["Brake before the bend", "Use Down, S or Space to brake, or the left trigger on a controller. Slow down before a tight corner."], ["Start a drift", "Build speed, steer into a bend and briefly tap the brake. Keep steering to hold the slide."], ["Straighten gently", "Ease the steering towards the centre. A short grace period lets you adjust before the car recovers. Leave room for the recovery boost."], ["Earn your points", "Longer controlled slides build a multiplier. Your points are secured when the car straightens. Traffic contact slows you down: leave space."]];
 function installDrivingLesson(game) {
   const steps = LESSON_STEPS.map(step => [...step]);
-  if (touchDevice) {
-    steps[0][1] = "The car accelerates automatically. Touch anywhere in the lower-left area, then slide your thumb left or right to steer. Each new touch sets a fresh centre.";
-    steps[1][1] = "Hold anywhere in the lower-right area to slow down before a tight corner. Release it to accelerate again.";
-    steps[3][1] = "Slide your thumb back towards where it first touched to straighten gently. Leave room for the recovery boost.";
-  }
   const host = document.querySelector("#select .easy-row") || document.getElementById("select"), label = document.createElement("label");
   label.className = "drive-mode", label.innerHTML = 'Drive mode <select id="drive-mode"><option value="race">Arcade race</option><option value="free">Free Drive \xB7 no timer</option></select>', host.append(label);
   const select = label.querySelector("select");

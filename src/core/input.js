@@ -65,12 +65,6 @@ function pollInput(dt) {
     const pu = armB(12), pd = armB(13), pl = armB(14), pr = armB(15), padEasy = armB(3), padConfirm = armB(0) || armB(9), padBack = armB(1) || armB(8);
     heldConfirm = heldConfirm || padConfirm, heldBack = heldBack || padBack, heldLeft = heldLeft || pl || menuAx < -0.5, heldRight = heldRight || pr || menuAx > 0.5, heldUp = heldUp || pu || menuAy < -0.5, heldDown = heldDown || pd || menuAy > 0.5, heldEasy = heldEasy || padEasy, easyNow = easyNow || padEasy, confirmNow = confirmNow || padConfirm, backNow = backNow || padBack, leftNow = leftNow || pl || menuAx < -0.5, rightNow = rightNow || pr || menuAx > 0.5, upNow = upNow || pu || menuAy < -0.5, downNow = downNow || pd || menuAy > 0.5;
   }
-  if (input.touchActive) {
-    dSteer = input.touchSteer || 0;
-    dBrk = input.touchBrake || 0;
-    dThr = dBrk ? 0 : 1;
-    aSteer = Math.max(-1, Math.min(1, dSteer));
-  }
   const target = dSteer, rate = Math.sign(target) !== Math.sign(input._rampSteer) || target === 0 ? RAMP_RELEASE : RAMP_ATTACK;
   input._rampSteer += (target - input._rampSteer) * Math.min(1, rate * dt), Math.abs(input._rampSteer) < 4e-3 && target === 0 && (input._rampSteer = 0), input.steerRaw = aSteer !== null ? aSteer : input._rampSteer, input.steer = shapeSteer(input.steerRaw), input.steerTarget = aSteer !== null ? aSteer : dSteer, input.analog = aSteer !== null, input._rampThr += (dThr - input._rampThr) * Math.min(1, RAMP_THROTTLE * dt), input._rampBrk += (dBrk - input._rampBrk) * Math.min(1, RAMP_BRAKE * dt), input.throttle = input._rampThr, input.brake = input._rampBrk;
   const brakeDown = dBrk > 0.5;

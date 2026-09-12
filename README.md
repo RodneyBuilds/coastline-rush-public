@@ -26,21 +26,6 @@ Press P or Escape to pause, F8 to save a photo, and F9 to save a diagnostic repo
 Sound, graphics, and controller settings are available in the garage and pause menu.
 Start with Auto graphics and a 60 FPS limit.
 
-## Mobile support (experimental)
-
-Touch devices use landscape orientation, automatic acceleration, floating thumb steering, and a broad brake/drift touch area.
-Touch anywhere in the lower-left area and slide left or right to steer; each new touch sets the centre.
-Hold anywhere in the lower-right area to brake or drift while steering.
-The mobile garage has separate ride, music, and settings tabs with the Drive button always available.
-Balanced graphics and a 30 FPS limit are the mobile defaults; these settings are separate from desktop preferences.
-Rotation to portrait or leaving the game pauses driving until Resume is tapped.
-Mobile support is experimental and further mobile development is paused.
-High-detail rendering can stutter on phones; desktop is the recommended way to play.
-Mobile High detail uses reduced-resolution soft shading and glow while retaining full-resolution scene rendering.
-If a run stutters, pause and choose Save performance report to download local timing and graphics diagnostics.
-For a local Wi-Fi trial, run `npm run preview -- --host 0.0.0.0` on a trusted network and open the computer's local IP address with the printed port on the phone.
-Stop the server with Ctrl+C after testing; do not configure port forwarding.
-
 ## Features
 
 Four route combinations, timed races, untimed Free Drive, and an optional driving lesson.

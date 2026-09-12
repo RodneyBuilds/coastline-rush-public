@@ -1,6 +1,5 @@
-import { touchDevice } from "../core/device.js";
 import * as THREE from "three";
-const RATIOS = touchDevice ? [1.75, 1.25, 1] : [1, 0.8, 0.62], STEP_DOWN_FPS = 52, STEP_UP_FPS = 59, DOWN_COOLDOWN = 1.5, UP_COOLDOWN = 30, SUSTAINED_HEADROOM = 20, FRAME_AVERAGE_SECONDS = 0.75, LOD_TIERS = Object.freeze({ hero: { cullAtFog: false }, mid: { cullAtFog: true }, far: { cullAtFog: true } });
+const RATIOS = [1, 0.8, 0.62], STEP_DOWN_FPS = 52, STEP_UP_FPS = 59, DOWN_COOLDOWN = 1.5, UP_COOLDOWN = 30, SUSTAINED_HEADROOM = 20, FRAME_AVERAGE_SECONDS = 0.75, LOD_TIERS = Object.freeze({ hero: { cullAtFog: false }, mid: { cullAtFog: true }, far: { cullAtFog: true } });
 class QualityGovernor {
   constructor({ renderer, bloomPass, aoPass, onLevel, targetFPS = () => 60 }) {
     this.targetFPS = targetFPS;
