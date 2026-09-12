@@ -1,0 +1,24 @@
+{
+  "name": "coastline-rush",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "An arcade driving game with branching coastal routes, traffic, and drifting.",
+  "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node tests/generic-fleet.mjs && node tests/public-runtime.mjs && node tests/frame-limit.mjs && node tests/input-controls.mjs && node tests/quality-target.mjs"
+  },
+  "dependencies": {
+    "three": "^0.160.1"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "vite": "^7.3.6"
+  }
+}

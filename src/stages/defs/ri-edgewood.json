@@ -1,0 +1,310 @@
+{
+  "id": "ri-edgewood",
+  "schemaVersion": 1,
+  "name": "EDGEWOOD",
+  "region": "rhode-island",
+  "sceneryKit": "ri-narragansett",
+  "roadWidth": 15,
+  "startHeading": 3.141592653589793,
+  "timeLimit": 75,
+  "segments": [
+    {
+      "len": 170,
+      "curve": 0,
+      "grade": 0
+    },
+    {
+      "len": 300,
+      "curve": 0.007142857142857143,
+      "grade": 0.055
+    },
+    {
+      "len": 70,
+      "curve": 0,
+      "grade": 0.1
+    },
+    {
+      "len": 260,
+      "curve": -0.00909090909090909,
+      "grade": -0.02
+    },
+    {
+      "len": 180,
+      "curve": 0.010526315789473684,
+      "grade": -0.09
+    },
+    {
+      "len": 70,
+      "curve": 0,
+      "grade": -0.06
+    },
+    {
+      "len": 240,
+      "curve": -0.006666666666666667,
+      "grade": -0.03
+    }
+  ],
+  "lighting": {
+    "skyTurbidity": 3,
+    "rayleigh": 1.6,
+    "sunElevation": 26,
+    "sunAzimuth": 210,
+    "exposure": 0.86,
+    "fogColor": 13096923,
+    "fogNear": 340,
+    "fogFar": 2400,
+    "bloomThreshold": 3
+  },
+  "fork": {
+    "leftLabel": "◀ MYSTIC",
+    "rightLabel": "NEW LONDON ▶",
+    "leftStage": "ct-mystic-harbor",
+    "rightStage": "ct-new-london",
+    "offset": 7.5,
+    "throatLen": 78,
+    "islandHeight": 0.44,
+    "leftSegments": [
+      {
+        "len": 90,
+        "curve": -0.00909090909090909,
+        "grade": 0.02
+      },
+      {
+        "len": 260,
+        "curve": -0.005882352941176471,
+        "grade": 0.05
+      },
+      {
+        "len": 240,
+        "curve": 0.007142857142857143,
+        "grade": 0.03
+      },
+      {
+        "len": 110,
+        "curve": 0,
+        "grade": -0.04
+      },
+      {
+        "len": 120,
+        "curve": -0.009523809523809525,
+        "grade": -0.03
+      },
+      {
+        "len": 90,
+        "curve": 0,
+        "grade": -0.05
+      },
+      {
+        "len": 190,
+        "curve": -0.005,
+        "grade": -0.05
+      }
+    ],
+    "rightSegments": [
+      {
+        "len": 80,
+        "curve": 0.00909090909090909,
+        "grade": 0.06
+      },
+      {
+        "len": 250,
+        "curve": 0.010526315789473684,
+        "grade": 0.12
+      },
+      {
+        "len": 220,
+        "curve": -0.011764705882352941,
+        "grade": 0.05
+      },
+      {
+        "len": 110,
+        "curve": 0,
+        "grade": -0.09
+      },
+      {
+        "len": 200,
+        "curve": 0.008333333333333333,
+        "grade": -0.11
+      },
+      {
+        "len": 100,
+        "curve": 0,
+        "grade": -0.06
+      }
+    ]
+  },
+  "checkpoints": [
+    {
+      "at": 0.75,
+      "bonus": 35,
+      "label": "WESTERLY"
+    }
+  ],
+  "traffic": {
+    "density": 0.5,
+    "lanesUsed": 4,
+    "palette": [
+      "#3a6ea5",
+      "#d8a13a",
+      "#7a4a3a",
+      "#2e6b62",
+      "#8a2f2a"
+    ]
+  },
+  "shore": {
+    "offset": 44,
+    "side": 1,
+    "legs": [
+      "main",
+      "left"
+    ]
+  },
+  "landmarks": [
+    {
+      "id": "ri-state-house",
+      "place": "providence",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.03,
+      "offset": -190,
+      "heading": 1.9,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 68,
+        "d": 44,
+        "h": 42
+      }
+    },
+    {
+      "id": "industrial-trust-tower",
+      "place": "providence",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.06,
+      "offset": -240,
+      "heading": 2.2,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 40,
+        "d": 40,
+        "h": 128
+      }
+    },
+    {
+      "id": "edgewood-yacht-club",
+      "place": "edgewood",
+      "inWater": true,
+      "leg": "main",
+      "at": 0.05,
+      "offset": 62,
+      "heading": 1.6,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 34,
+        "d": 18,
+        "h": 13
+      }
+    },
+    {
+      "id": "rhode-island-yacht-club",
+      "place": "pawtuxet",
+      "inWater": true,
+      "leg": "main",
+      "at": 0.15,
+      "offset": 58,
+      "heading": 1.35,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 26,
+        "d": 15,
+        "h": 11
+      }
+    },
+    {
+      "id": "warwick-water-tanks",
+      "place": "warwick",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.6,
+      "offset": -150,
+      "heading": 0,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 26,
+        "d": 26,
+        "h": 38
+      }
+    },
+    {
+      "id": "warwick-approach-lights",
+      "place": "warwick",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.8,
+      "offset": -215,
+      "heading": 0.5,
+      "scale": 1,
+      "lodTier": "far",
+      "footprint": {
+        "w": 10,
+        "d": 10,
+        "h": 28
+      }
+    },
+    {
+      "id": "beavertail-light",
+      "place": "jamestown",
+      "inWater": false,
+      "leg": "right",
+      "at": 0.4,
+      "offset": -96,
+      "heading": 2.6,
+      "scale": 1,
+      "lodTier": "far",
+      "footprint": {
+        "w": 8,
+        "d": 8,
+        "h": 18
+      }
+    },
+    {
+      "id": "point-judith-light",
+      "place": "narragansett",
+      "inWater": false,
+      "leg": "left",
+      "at": 0.72,
+      "offset": 26,
+      "heading": 0,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 9,
+        "d": 9,
+        "h": 20
+      }
+    }
+  ],
+  "budget": {
+    "drawCalls": 260,
+    "triangles": 1400000
+  },
+  "gateway": {
+    "label": "EDGEWOOD, RHODE ISLAND",
+    "at": 0.045
+  },
+  "markers": [
+    {
+      "label": "PAWTUXET",
+      "at": 0.22
+    },
+    {
+      "label": "WARWICK",
+      "at": 0.58
+    }
+  ]
+}

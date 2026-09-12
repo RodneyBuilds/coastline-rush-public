@@ -1,0 +1,153 @@
+.drive-mode {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: #c5d6e6;
+}
+.drive-mode select {
+  background: #13283f;
+  color: #eef7ff;
+  border: 1px solid #6b8eac88;
+  padding: 8px;
+  border-radius: 5px;
+}
+#learn-driving {
+  background: none;
+  border: 1px solid #829fb777;
+  color: #d4e5ee;
+  border-radius: 5px;
+  padding: 9px;
+  cursor: pointer;
+}
+.easy-row {
+  flex-wrap: wrap;
+}
+#game-credits-dialog {
+  max-width: 640px;
+  width: calc(100% - 40px);
+  max-height: 85vh;
+  overflow: auto;
+  border: 1px solid #8badc955;
+  border-radius: 16px;
+  background: #132b40;
+  color: #edf6fc;
+  padding: 28px;
+}
+#game-credits-dialog::backdrop {
+  background: #041322cc;
+}
+#game-credits-dialog p {
+  line-height: 1.6;
+  color: #c0d1df;
+}
+#game-credits-dialog a {
+  color: #dcfa7b;
+}
+#game-credits-dialog button {
+  background: #dcfa7b;
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-weight: 700;
+}
+#driving-lesson {
+  max-width: 520px;
+  width: calc(100% - 40px);
+  border: 1px solid #8badc955;
+  border-radius: 16px;
+  background: #132b40;
+  color: #edf6fc;
+  padding: 28px;
+  box-shadow: 0 20px 100px #0007;
+}
+#driving-lesson::backdrop {
+  background: #041322cc;
+}
+.lesson-kicker {
+  font-size: 11px;
+  letter-spacing: .15em;
+  color: #cfff79;
+}
+.lesson-kicker span {
+  float: right;
+}
+#lesson-title {
+  font-size: 30px;
+  margin: 24px 0 12px;
+}
+#lesson-body {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #bbd0df;
+  min-height: 120px;
+}
+.lesson-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.lesson-actions button {
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 18px;
+  background: #dcfa7b;
+  color: #132334;
+  font-weight: 700;
+  cursor: pointer;
+}
+#lesson-close {
+  background: #26445d;
+  color: #fff;
+}
+#clock.free-drive {
+  font-size: 28px;
+  letter-spacing: .1em;
+  margin-top: 20px;
+}
+#player-settings-dialog,
+#driving-lesson,
+#game-credits-dialog {
+  margin: auto;
+}
+#driving-lesson {
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+}
+#select .easy-row {
+  display: grid;
+  grid-template-columns: repeat(6, max-content);
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 10px;
+}
+#select .easy-what {
+  grid-column: 2 / -1;
+}
+@media (max-width: 1100px) {
+  #select .easy-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #select .easy-what {
+    flex: 1 1 240px;
+  }
+  #select .easy-row .graphics-setting {
+    margin-left: 0;
+  }
+  #select .easy-row > button {
+    flex-shrink: 0;
+  }
+}
+@media (min-width: 901px) and (min-height: 801px) and (max-height: 1000px) {
+  #select.screen {
+    gap: 10px;
+    padding-top: 24px;
+  }
+  #select .garage-header {
+    padding-bottom: 12px;
+  }
+  #select .garage-header h1 {
+    font-size: 44px;
+  }
+}

@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import { input, pollInput, clearKeys } from '../src/core/input.js';
+let pads = [];
+Object.defineProperty(globalThis, 'navigator', { configurable: true, value: { getGamepads: () => pads } });
+input._kb.w = true;
+input._kb.d = true;
+pollInput(0.1);
+assert(input.throttle > 0 && input.steer > 0);
+clearKeys();
+const buttons = Array.from({ length: 16 }, () => ({ pressed: false, value: 0 }));
+pads = [{ connected: true, id: 'test-controller', index: 0, timestamp: 1, axes: [0, 0], buttons }];
+pollInput(0.1);
+buttons[7] = { pressed: true, value: 1 };
+pads[0].axes[0] = 0.8;
+pads[0].timestamp++;
+pollInput(0.1);
+assert(input.analog && input.steer > 0 && input.throttle > 0);
+console.log('PASS keyboard and controller input');

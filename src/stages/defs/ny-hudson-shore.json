@@ -1,0 +1,351 @@
+{
+  "id": "ny-hudson-shore",
+  "schemaVersion": 1,
+  "name": "THE HUDSON",
+  "region": "new-york",
+  "sceneryKit": "ny-hudson-palisades",
+  "roadWidth": 15,
+  "startHeading": 3.141592653589793,
+  "timeLimit": 72,
+  "segments": [
+    {
+      "len": 170,
+      "grade": 0.02
+    },
+    {
+      "len": 280,
+      "curve": -0.006666666666666667,
+      "grade": 0.04
+    },
+    {
+      "len": 110,
+      "grade": 0.03
+    },
+    {
+      "len": 29.33,
+      "grade": -0.03
+    },
+    {
+      "len": 81,
+      "curve": 0.012345679012345678,
+      "grade": -0.03
+    },
+    {
+      "len": 29.33,
+      "grade": -0.03
+    },
+    {
+      "len": 81,
+      "curve": 0.012345679012345678,
+      "grade": -0.03
+    },
+    {
+      "len": 29.33,
+      "grade": -0.03
+    },
+    {
+      "len": 130,
+      "grade": -0.02
+    },
+    {
+      "len": 36.52,
+      "grade": -0.04
+    },
+    {
+      "len": 75.21,
+      "curve": -0.012345679012345678,
+      "grade": -0.04
+    },
+    {
+      "len": 36.52,
+      "grade": -0.04
+    },
+    {
+      "len": 75.21,
+      "curve": -0.012345679012345678,
+      "grade": -0.04
+    },
+    {
+      "len": 36.52,
+      "grade": -0.04
+    },
+    {
+      "len": 120,
+      "grade": -0.03
+    },
+    {
+      "len": 39.5,
+      "grade": 0.02
+    },
+    {
+      "len": 60.75,
+      "curve": 0.012345679012345678,
+      "grade": 0.02
+    },
+    {
+      "len": 39.5,
+      "grade": 0.02
+    },
+    {
+      "len": 60.75,
+      "curve": 0.012345679012345678,
+      "grade": 0.02
+    },
+    {
+      "len": 39.5,
+      "grade": 0.02
+    },
+    {
+      "len": 100,
+      "grade": 0.03
+    },
+    {
+      "len": 22.67,
+      "grade": -0.02
+    },
+    {
+      "len": 81,
+      "curve": -0.012345679012345678,
+      "grade": -0.02
+    },
+    {
+      "len": 22.67,
+      "grade": -0.02
+    },
+    {
+      "len": 81,
+      "curve": -0.012345679012345678,
+      "grade": -0.02
+    },
+    {
+      "len": 22.67,
+      "grade": -0.02
+    },
+    {
+      "len": 140,
+      "grade": -0.04
+    },
+    {
+      "len": 30.9,
+      "grade": -0.01
+    },
+    {
+      "len": 58.66,
+      "curve": 0.012345679012345678,
+      "grade": -0.01
+    },
+    {
+      "len": 30.9,
+      "grade": -0.01
+    },
+    {
+      "len": 58.66,
+      "curve": 0.012345679012345678,
+      "grade": -0.01
+    },
+    {
+      "len": 30.9,
+      "grade": -0.01
+    },
+    {
+      "len": 160
+    }
+  ],
+  "lighting": {
+    "skyTurbidity": 3,
+    "rayleigh": 1.6,
+    "sunElevation": 22.6,
+    "sunAzimuth": 199,
+    "exposure": 0.86,
+    "fogColor": 13096923,
+    "fogNear": 300,
+    "fogFar": 2400,
+    "bloomThreshold": 3
+  },
+  "fork": null,
+  "checkpoints": [
+    {
+      "at": 0.5,
+      "bonus": 34,
+      "label": "MANHATTAN"
+    }
+  ],
+  "traffic": {
+    "density": 0.66,
+    "lanesUsed": 4,
+    "palette": [
+      "#d9d3c8",
+      "#2f4a6e",
+      "#8a8f95",
+      "#3d6b52",
+      "#8a3330"
+    ]
+  },
+  "shore": {
+    "offset": 48,
+    "side": 1,
+    "legs": [
+      "main"
+    ]
+  },
+  "landmarks": [
+    {
+      "id": "george-washington-bridge",
+      "kind": "span",
+      "place": "manhattan",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.22,
+      "offset": 0,
+      "forward": 0,
+      "heading": 3.141592653589793,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 1450,
+        "d": 36,
+        "h": 184
+      }
+    },
+    {
+      "id": "jeffreys-hook-light",
+      "place": "manhattan",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.245,
+      "offset": 26,
+      "forward": 0,
+      "heading": 1.4,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 5,
+        "d": 5,
+        "h": 12
+      }
+    },
+    {
+      "id": "palisades-cliffs",
+      "kind": "ridge",
+      "place": "palisades",
+      "inWater": true,
+      "leg": "main",
+      "at": 0.14,
+      "offset": 260,
+      "forward": 0,
+      "heading": 1.6,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 2400,
+        "d": 220,
+        "h": 145
+      }
+    },
+    {
+      "id": "one-world-trade",
+      "place": "manhattan",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.9,
+      "offset": -180,
+      "forward": 320,
+      "heading": 3,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 61,
+        "d": 61,
+        "h": 541
+      }
+    },
+    {
+      "id": "castle-clinton",
+      "place": "manhattan",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.985,
+      "offset": -74,
+      "forward": 0,
+      "heading": 2.7,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 64,
+        "d": 64,
+        "h": 9
+      }
+    },
+    {
+      "id": "statue-of-liberty",
+      "place": "upper-new-york-bay",
+      "inWater": true,
+      "leg": "main",
+      "at": 1,
+      "offset": 480,
+      "forward": 900,
+      "heading": 1.05,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 40,
+        "d": 40,
+        "h": 93
+      }
+    }
+  ],
+  "budget": {
+    "drawCalls": 280,
+    "triangles": 1600000
+  },
+  "gateway": {
+    "label": "WELCOME TO NEW YORK",
+    "at": 0.045
+  },
+  "markers": [
+    {
+      "label": "THE BRONX",
+      "at": 0.14
+    },
+    {
+      "label": "THE BATTERY",
+      "at": 0.75
+    }
+  ],
+  "chapters": [
+    {
+      "id": "waterfront",
+      "fromS": 0,
+      "toS": 0.84,
+      "sceneryKit": "ny-hudson-palisades",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 22.6,
+        "sunAzimuth": 199,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 300,
+        "fogFar": 2400,
+        "bloomThreshold": 3
+      }
+    },
+    {
+      "id": "lower-manhattan",
+      "fromS": 0.84,
+      "toS": 1,
+      "sceneryKit": "nyc-manhattan",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 22.6,
+        "sunAzimuth": 199,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 300,
+        "fogFar": 2400,
+        "bloomThreshold": 3
+      }
+    }
+  ]
+}

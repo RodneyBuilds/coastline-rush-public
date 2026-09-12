@@ -1,0 +1,475 @@
+{
+  "id": "ny-five-boroughs",
+  "schemaVersion": 1,
+  "name": "FIVE BOROUGHS",
+  "region": "new-york",
+  "roadWidth": 15,
+  "startHeading": 3.141592653589793,
+  "timeLimit": 96,
+  "segments": [
+    {
+      "len": 160,
+      "grade": -0.02
+    },
+    {
+      "len": 52.68,
+      "grade": 0.03
+    },
+    {
+      "len": 144.64,
+      "curve": -0.012345679012345678,
+      "grade": 0.03
+    },
+    {
+      "len": 52.68,
+      "grade": 0.03
+    },
+    {
+      "len": 90,
+      "grade": 0.02
+    },
+    {
+      "len": 36.4,
+      "grade": -0.03
+    },
+    {
+      "len": 151.2,
+      "curve": 0.012345679012345678,
+      "grade": -0.03
+    },
+    {
+      "len": 36.4,
+      "grade": -0.03
+    },
+    {
+      "len": 140,
+      "grade": -0.02
+    },
+    {
+      "len": 200,
+      "grade": 0.04
+    },
+    {
+      "len": 120,
+      "grade": -0.05
+    },
+    {
+      "len": 59.8,
+      "grade": 0.02
+    },
+    {
+      "len": 140.4,
+      "curve": 0.012345679012345678,
+      "grade": 0.02
+    },
+    {
+      "len": 59.8,
+      "grade": 0.02
+    },
+    {
+      "len": 110
+    },
+    {
+      "len": 46.36,
+      "grade": -0.02
+    },
+    {
+      "len": 153.28,
+      "curve": -0.012345679012345678,
+      "grade": -0.02
+    },
+    {
+      "len": 46.36,
+      "grade": -0.02
+    },
+    {
+      "len": 120,
+      "grade": 0.01
+    },
+    {
+      "len": 56.78,
+      "grade": 0.02
+    },
+    {
+      "len": 116.44,
+      "curve": -0.012345679012345678,
+      "grade": 0.02
+    },
+    {
+      "len": 56.78,
+      "grade": 0.02
+    },
+    {
+      "len": 100,
+      "grade": -0.02
+    },
+    {
+      "len": 270,
+      "curve": 0.008,
+      "grade": 0.03
+    },
+    {
+      "len": 120,
+      "grade": -0.03
+    },
+    {
+      "len": 52.97,
+      "grade": -0.02
+    },
+    {
+      "len": 134.07,
+      "curve": -0.012345679012345678,
+      "grade": -0.02
+    },
+    {
+      "len": 52.97,
+      "grade": -0.02
+    },
+    {
+      "len": 300,
+      "grade": 0.05
+    },
+    {
+      "len": 35.75,
+      "grade": -0.06
+    },
+    {
+      "len": 58.5,
+      "curve": 0.012345679012345678,
+      "grade": -0.06
+    },
+    {
+      "len": 35.75,
+      "grade": -0.06
+    },
+    {
+      "len": 30.32,
+      "grade": 0.02
+    },
+    {
+      "len": 169.36,
+      "curve": -0.012345679012345678,
+      "grade": 0.02
+    },
+    {
+      "len": 30.32,
+      "grade": 0.02
+    },
+    {
+      "len": 300,
+      "grade": -0.03
+    },
+    {
+      "len": 150,
+      "grade": -0.06
+    },
+    {
+      "len": 40,
+      "grade": 0.03
+    },
+    {
+      "len": 120,
+      "curve": 0.012345679012345678,
+      "grade": 0.03
+    },
+    {
+      "len": 40,
+      "grade": 0.03
+    },
+    {
+      "len": 110,
+      "grade": 0.04
+    },
+    {
+      "len": 38.43,
+      "grade": -0.01
+    },
+    {
+      "len": 183.13,
+      "curve": -0.012345679012345678,
+      "grade": -0.01
+    },
+    {
+      "len": 38.43,
+      "grade": -0.01
+    },
+    {
+      "len": 240
+    }
+  ],
+  "lighting": {
+    "skyTurbidity": 3,
+    "rayleigh": 1.6,
+    "sunElevation": 22.4,
+    "sunAzimuth": 212,
+    "exposure": 0.86,
+    "fogColor": 13096923,
+    "fogNear": 300,
+    "fogFar": 2700,
+    "bloomThreshold": 3
+  },
+  "chapters": [
+    {
+      "id": "bronx",
+      "fromS": 0,
+      "toS": 0.18,
+      "sceneryKit": "nyc-bronx",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 24.4,
+        "sunAzimuth": 246,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 300,
+        "fogFar": 2700,
+        "bloomThreshold": 3
+      }
+    },
+    {
+      "id": "queens",
+      "fromS": 0.18,
+      "toS": 0.4,
+      "sceneryKit": "nyc-queens",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 24,
+        "sunAzimuth": 248,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 300,
+        "fogFar": 2700,
+        "bloomThreshold": 3
+      }
+    },
+    {
+      "id": "brooklyn",
+      "fromS": 0.4,
+      "toS": 0.6,
+      "sceneryKit": "nyc-brooklyn",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 23.6,
+        "sunAzimuth": 250,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 300,
+        "fogFar": 2700,
+        "bloomThreshold": 3
+      }
+    },
+    {
+      "id": "staten",
+      "fromS": 0.6,
+      "toS": 0.8,
+      "sceneryKit": "nyc-staten",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 23,
+        "sunAzimuth": 252,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 320,
+        "fogFar": 2700,
+        "bloomThreshold": 3
+      }
+    },
+    {
+      "id": "manhattan",
+      "fromS": 0.8,
+      "toS": 1,
+      "sceneryKit": "nyc-manhattan",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 22.4,
+        "sunAzimuth": 255,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 280,
+        "fogFar": 2700,
+        "bloomThreshold": 3
+      }
+    }
+  ],
+  "fork": null,
+  "checkpoints": [
+    {
+      "at": 0.45,
+      "bonus": 38,
+      "label": "BROOKLYN"
+    },
+    {
+      "at": 0.7,
+      "bonus": 38,
+      "label": "STATEN ISLAND"
+    }
+  ],
+  "traffic": {
+    "density": 0.78,
+    "lanesUsed": 4,
+    "palette": [
+      "#e8c93a",
+      "#2f4a6e",
+      "#8f8f95",
+      "#3d6b52",
+      "#8a3330",
+      "#c4c9cf"
+    ]
+  },
+  "shore": {
+    "offset": 52,
+    "side": 1,
+    "legs": [
+      "main"
+    ]
+  },
+  "landmarks": [
+    {
+      "id": "bronx-whitestone-bridge",
+      "kind": "span",
+      "place": "bronx",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.185,
+      "offset": 0,
+      "forward": 0,
+      "heading": 3.141592653589793,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 1150,
+        "d": 30,
+        "h": 116
+      }
+    },
+    {
+      "id": "unisphere",
+      "place": "queens",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.3,
+      "offset": -150,
+      "forward": 0,
+      "heading": 2.9,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 37,
+        "d": 37,
+        "h": 43
+      }
+    },
+    {
+      "id": "coney-island-wonder-wheel",
+      "place": "brooklyn",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.5,
+      "offset": -80,
+      "forward": 0,
+      "heading": 1.2,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 46,
+        "d": 12,
+        "h": 46
+      }
+    },
+    {
+      "id": "verrazzano-narrows-bridge",
+      "kind": "span",
+      "place": "staten-island",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.66,
+      "offset": 0,
+      "forward": 0,
+      "heading": 3.141592653589793,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 2050,
+        "d": 46,
+        "h": 210
+      }
+    },
+    {
+      "id": "one-world-trade",
+      "place": "manhattan",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.93,
+      "offset": -210,
+      "forward": 260,
+      "heading": 3,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 61,
+        "d": 61,
+        "h": 541
+      }
+    },
+    {
+      "id": "castle-clinton",
+      "place": "manhattan",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.985,
+      "offset": -74,
+      "forward": 0,
+      "heading": 2.7,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 64,
+        "d": 64,
+        "h": 9
+      }
+    },
+    {
+      "id": "statue-of-liberty",
+      "place": "upper-new-york-bay",
+      "inWater": true,
+      "leg": "main",
+      "at": 1,
+      "offset": 480,
+      "forward": 900,
+      "heading": 1.05,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 40,
+        "d": 40,
+        "h": 93
+      }
+    }
+  ],
+  "budget": {
+    "drawCalls": 340,
+    "triangles": 2200000
+  },
+  "gateway": {
+    "label": "WELCOME TO NEW YORK",
+    "at": 0.045
+  },
+  "markers": [
+    {
+      "label": "THE BRONX",
+      "at": 0.12
+    },
+    {
+      "label": "QUEENS",
+      "at": 0.24
+    },
+    {
+      "label": "MANHATTAN",
+      "at": 0.78
+    }
+  ]
+}

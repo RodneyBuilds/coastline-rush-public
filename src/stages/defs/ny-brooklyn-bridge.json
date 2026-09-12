@@ -1,0 +1,340 @@
+{
+  "id": "ny-brooklyn-bridge",
+  "schemaVersion": 1,
+  "name": "BROOKLYN BRIDGE",
+  "region": "new-york",
+  "sceneryKit": "ny-east-river",
+  "roadWidth": 15,
+  "startHeading": 3.141592653589793,
+  "timeLimit": 72,
+  "segments": [
+    {
+      "len": 150,
+      "grade": 0.03
+    },
+    {
+      "len": 265,
+      "curve": 0.009523809523809525,
+      "grade": 0.07
+    },
+    {
+      "len": 6.67,
+      "grade": 0.03
+    },
+    {
+      "len": 90,
+      "curve": -0.012345679012345678,
+      "grade": 0.03
+    },
+    {
+      "len": 6.67,
+      "grade": 0.03
+    },
+    {
+      "len": 90,
+      "curve": -0.012345679012345678,
+      "grade": 0.03
+    },
+    {
+      "len": 6.67,
+      "grade": 0.03
+    },
+    {
+      "len": 110,
+      "grade": -0.06
+    },
+    {
+      "len": 15.52,
+      "grade": -0.08
+    },
+    {
+      "len": 99.23,
+      "curve": 0.012345679012345678,
+      "grade": -0.08
+    },
+    {
+      "len": 15.52,
+      "grade": -0.08
+    },
+    {
+      "len": 99.23,
+      "curve": 0.012345679012345678,
+      "grade": -0.08
+    },
+    {
+      "len": 15.52,
+      "grade": -0.08
+    },
+    {
+      "len": 475,
+      "grade": -0.03168
+    },
+    {
+      "len": 120,
+      "grade": -0.03
+    },
+    {
+      "len": 11.3,
+      "grade": 0.02
+    },
+    {
+      "len": 98.05,
+      "curve": -0.012345679012345678,
+      "grade": 0.02
+    },
+    {
+      "len": 11.3,
+      "grade": 0.02
+    },
+    {
+      "len": 98.05,
+      "curve": -0.012345679012345678,
+      "grade": 0.02
+    },
+    {
+      "len": 11.3,
+      "grade": 0.02
+    },
+    {
+      "len": 105,
+      "grade": 0.04
+    },
+    {
+      "len": 31.41,
+      "grade": -0.02
+    },
+    {
+      "len": 77.88,
+      "curve": 0.012345679012345678,
+      "grade": -0.02
+    },
+    {
+      "len": 31.41,
+      "grade": -0.02
+    },
+    {
+      "len": 77.88,
+      "curve": 0.012345679012345678,
+      "grade": -0.02
+    },
+    {
+      "len": 31.41,
+      "grade": -0.02
+    },
+    {
+      "len": 43.63,
+      "grade": 0.01
+    },
+    {
+      "len": 59.56,
+      "curve": 0.012345679012345678,
+      "grade": 0.01
+    },
+    {
+      "len": 43.63,
+      "grade": 0.01
+    },
+    {
+      "len": 59.56,
+      "curve": 0.012345679012345678,
+      "grade": 0.01
+    },
+    {
+      "len": 43.63,
+      "grade": 0.01
+    }
+  ],
+  "lighting": {
+    "skyTurbidity": 3,
+    "rayleigh": 1.6,
+    "sunElevation": 22.2,
+    "sunAzimuth": 214,
+    "exposure": 0.86,
+    "fogColor": 13096923,
+    "fogNear": 290,
+    "fogFar": 2700,
+    "bloomThreshold": 3
+  },
+  "fork": null,
+  "checkpoints": [
+    {
+      "at": 0.3,
+      "bonus": 34,
+      "label": "BROOKLYN"
+    }
+  ],
+  "traffic": {
+    "density": 0.72,
+    "lanesUsed": 4,
+    "palette": [
+      "#e8c93a",
+      "#33507a",
+      "#8f9298",
+      "#3a6a55",
+      "#93362e",
+      "#cfd3d8"
+    ]
+  },
+  "shore": {
+    "offset": 46,
+    "side": 1,
+    "legs": [
+      "main"
+    ]
+  },
+  "landmarks": [
+    {
+      "id": "battery-maritime-building",
+      "place": "manhattan",
+      "inWater": true,
+      "leg": "main",
+      "at": 0.93,
+      "offset": 88,
+      "forward": 0,
+      "heading": 1.35,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 82,
+        "d": 46,
+        "h": 24
+      }
+    },
+    {
+      "id": "governors-island",
+      "place": "upper-new-york-bay",
+      "inWater": true,
+      "leg": "main",
+      "at": 0.96,
+      "offset": 420,
+      "forward": 180,
+      "heading": 1.1,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 780,
+        "d": 620,
+        "h": 22
+      }
+    },
+    {
+      "id": "one-world-trade",
+      "place": "manhattan",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.88,
+      "offset": -140,
+      "forward": 0,
+      "heading": 3,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 61,
+        "d": 61,
+        "h": 541
+      }
+    },
+    {
+      "id": "castle-clinton",
+      "place": "manhattan",
+      "inWater": false,
+      "leg": "main",
+      "at": 0.985,
+      "offset": -74,
+      "forward": 0,
+      "heading": 2.7,
+      "scale": 1,
+      "lodTier": "mid",
+      "footprint": {
+        "w": 64,
+        "d": 64,
+        "h": 9
+      }
+    },
+    {
+      "id": "statue-of-liberty",
+      "place": "upper-new-york-bay",
+      "inWater": true,
+      "leg": "main",
+      "at": 1,
+      "offset": 480,
+      "forward": 900,
+      "heading": 1.05,
+      "scale": 1,
+      "lodTier": "hero",
+      "footprint": {
+        "w": 40,
+        "d": 40,
+        "h": 93
+      }
+    }
+  ],
+  "budget": {
+    "drawCalls": 280,
+    "triangles": 1600000
+  },
+  "bridges": [
+    {
+      "id": "brooklyn-bridge",
+      "name": "BROOKLYN BRIDGE",
+      "leg": "main",
+      "fromS": 0.41667,
+      "toS": 0.58958,
+      "towerAt": [
+        0.22,
+        0.78
+      ],
+      "waterHalfWidth": 300
+    }
+  ],
+  "gateway": {
+    "label": "WELCOME TO NEW YORK",
+    "at": 0.045
+  },
+  "markers": [
+    {
+      "label": "MANHATTAN",
+      "at": 0.64
+    },
+    {
+      "label": "THE BATTERY",
+      "at": 0.74
+    }
+  ],
+  "chapters": [
+    {
+      "id": "waterfront",
+      "fromS": 0,
+      "toS": 0.84,
+      "sceneryKit": "ny-east-river",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 22.2,
+        "sunAzimuth": 214,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 290,
+        "fogFar": 2700,
+        "bloomThreshold": 3
+      }
+    },
+    {
+      "id": "lower-manhattan",
+      "fromS": 0.84,
+      "toS": 1,
+      "sceneryKit": "nyc-manhattan",
+      "lighting": {
+        "skyTurbidity": 3,
+        "rayleigh": 1.6,
+        "sunElevation": 22.2,
+        "sunAzimuth": 214,
+        "exposure": 0.86,
+        "fogColor": 13096923,
+        "fogNear": 290,
+        "fogFar": 2700,
+        "bloomThreshold": 3
+      }
+    }
+  ]
+}

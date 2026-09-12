@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Coastline Rush</title>
+<meta name="theme-color" content="#102334">
+<meta name="description" content="An arcade driving game with branching coastal routes, traffic, and drifting.">
+
+
+<style>
+  :root {
+
+    --navy: #0d2a66;
+    --navy-deep: #071b47;
+    --white: #f6fbff;
+    --sun: #ffd23f;
+    --gold: #ffb400;
+    --cyan: #29b7e8;
+    --coral: #ff5a4e;
+
+
+    --font-ui: system-ui, -apple-system, sans-serif;
+    --fs-logotype: clamp(56px, 9vw, 118px);
+    --fs-tagline: clamp(34px, 5vw, 54px);
+    --fs-screen-title: clamp(16px, 2.2vw, 26px);
+    --fs-hud-major: 64px;
+    --fs-hud-speed: 44px;
+    --fs-result: 30px;
+    --fs-body: 20px;
+    --fs-micro: 12px;
+    --tracking-body: .01em;
+    --tracking-label: .05em;
+    --tracking-button: .1em;
+    --tracking-arcade: .14em;
+
+
+    --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+    --r-chip: 8px; --r-ctrl: 12px; --r-panel: 16px; --r-card: 18px; --r-pill: 99px;
+
+
+    --ease-flat: cubic-bezier(.3, .9, .4, 1);
+    --ease-marquee: cubic-bezier(.2, 1.4, .4, 1);
+    --lift-y: -6px;
+    --lift-shadow: 0 12px 26px rgba(7, 27, 71, .6), 0 0 0 4px rgba(255, 210, 63, .35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; background: #000; }
+  body { font-family: var(--font-ui); color: var(--white); letter-spacing: var(--tracking-body); }
+  #game-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .screen { position: fixed; inset: 0; display: none; flex-direction: column;
+    align-items: center; justify-content: center; z-index: 5; }
+  .screen.show { display: flex; }
+
+
+  .ribbon { position: absolute; left: -60px; right: -60px; height: 22px;
+    background: repeating-conic-gradient(#101216 0% 25%, #f4f7fa 0% 50%) 0 0/22px 22px; opacity: .95; }
+  .ribbon.top { top: 9%; transform: rotate(-2deg); }
+  .ribbon.bottom { bottom: 8%; transform: rotate(1.4deg); }
+
+
+  .sun-disc { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -78%);
+    width: 400px; height: 400px; border-radius: 50%; pointer-events: none; opacity: .9;
+    background: radial-gradient(circle at 50% 42%, #fff6d8 0%, var(--sun) 34%, var(--gold) 52%,
+      rgba(255, 140, 50, .55) 66%, rgba(255, 140, 50, 0) 76%);
+    filter: blur(1px); }
+  .sun-disc::after { content: ""; position: absolute; inset: 18%; border-radius: 50%;
+    background: repeating-linear-gradient(180deg, transparent 0 14px, rgba(255, 255, 255, .16) 14px 17px); }
+
+
+  .logo { position: relative; font-size: var(--fs-logotype); font-weight: 900; font-style: italic;
+    letter-spacing: var(--tracking-body); transform: skewX(-8deg); text-align: center; line-height: .95; }
+  .logo .word { display: inline-block;
+    background: linear-gradient(180deg, #ffffff 0%, #dfe9f2 28%, #8fa6bb 46%, #f6fbff 52%, #56708a 70%, #dfe9f2 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .logo-wrap { position: relative;
+    filter: drop-shadow(0 5px 0 var(--navy-deep)) drop-shadow(0 10px 22px rgba(7, 27, 71, .45)); }
+  body.fresh-load .logo .word { opacity: 0; transform: translateY(40px) scale(1.12); }
+  body.fresh-load .logo .word.w1 { animation: slam .5s var(--ease-marquee) .15s forwards; }
+  body.fresh-load .logo .word.w2 { animation: slam .5s var(--ease-marquee) .38s forwards; }
+  @keyframes slam { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+  .tagline { margin-top: var(--s4); font-weight: 800; font-style: italic; transform: skewX(-8deg);
+    color: var(--sun); font-size: var(--fs-screen-title); letter-spacing: .06em;
+    text-shadow: 0 2px 0 var(--navy-deep); text-align: center; }
+  .subline { margin-top: var(--s3); font-weight: 600; opacity: .85; font-size: 14px;
+    letter-spacing: var(--tracking-arcade); text-align: center; }
+
+  .press-start { margin-top: var(--s7); font-weight: 900; font-size: var(--fs-body);
+    letter-spacing: .08em; background: var(--navy); border: 3px solid var(--sun);
+    border-radius: 14px; padding: 14px 30px; box-shadow: 0 5px 0 var(--navy-deep);
+    animation: pulse 1.6s ease-in-out infinite; cursor: pointer; color: var(--white); font-family: inherit; }
+  @keyframes pulse { 50% { opacity: .55; } }
+  #attract { background: linear-gradient(180deg, rgba(13, 42, 102, .35), rgba(7, 27, 71, .55)); }
+
+
+  .routemap { width: 380px; background: #f8efd8; border: 3px solid #b4a06d;
+    border-radius: var(--r-panel); padding: var(--s3) 14px; color: #4a3323; }
+  .routemap h4 { font-size: var(--fs-micro); letter-spacing: var(--tracking-arcade);
+    color: #7a5c33; margin-bottom: var(--s1); }
+  .routemap svg { width: 100%; height: 118px; }
+  .routemap .cap { font-size: 11px; font-style: normal; color: #7a5c33; text-align: center; }
+  #attract { gap: 12px; padding: 10vh 24px; overflow-y: auto; overflow-x: hidden; }
+  #attract .routemap { position: relative; flex-shrink: 0; }
+  #attract .logo { font-size: clamp(36px, 7.5vw, 108px); }
+  #attract .press-start { margin-top: 10px; flex-shrink: 0; }
+  @media (max-height: 660px) {
+    #attract { justify-content: flex-start; padding-top: 32px; gap: 8px; }
+    #attract .logo { font-size: clamp(34px, 6vw, 72px); }
+    #attract .routemap svg { height: 80px; }
+  }
+
+
+  #select { background: linear-gradient(180deg, rgba(13, 42, 102, .5), rgba(7, 27, 71, .72));
+    gap: var(--s4); }
+  .panel-title { font-weight: 900; letter-spacing: var(--tracking-button); font-size: 14px;
+    background: var(--sun); color: var(--navy-deep); border-radius: var(--r-pill);
+    padding: 5px 18px; box-shadow: 0 3px 0 rgba(7, 27, 71, .5); }
+  .cards { display: flex; gap: var(--s4); }
+  .car-card { width: 218px; background: linear-gradient(180deg, #123a86, var(--navy-deep));
+    border: 3px solid #2c53a8; border-radius: var(--r-card); padding: var(--s4) 14px 14px;
+    text-align: center; cursor: pointer; position: relative;
+    transition: transform .14s var(--ease-flat), box-shadow .14s var(--ease-flat), border-color .14s var(--ease-flat); }
+
+  .car-card:hover, .car-card.focused { transform: translateY(var(--lift-y));
+    border-color: var(--sun); box-shadow: var(--lift-shadow); }
+  .car-card.focused::before { content: "SELECTED"; position: absolute; top: -12px; right: -8px;
+    background: var(--coral); color: #fff; font-size: 11px; font-weight: 900; letter-spacing: .08em;
+    border-radius: var(--r-chip); padding: 3px 9px; transform: rotate(6deg);
+    box-shadow: 0 3px 0 rgba(7, 27, 71, .5); }
+
+  .car-art { position: relative; width: 170px; height: 74px; margin: var(--s1) auto var(--s2);
+    transition: transform .22s var(--ease-flat); }
+
+  .car-svg { position: absolute; inset: 0; width: 170px; height: 74px; display: none; }
+  .car-art.no-photo .car-svg { display: block; }
+  .car-card-img { position: absolute; inset: 0; width: 170px; height: 74px; display: block;
+    object-fit: contain; }
+  .car-card.focused .car-art { transform: scale(1.06); }
+  .car-name { font-weight: 900; font-size: 19px; letter-spacing: var(--tracking-label); }
+  .car-desc { display: inline-block; margin-top: 6px; background: var(--cyan);
+    color: var(--navy-deep); border-radius: var(--r-pill); font-size: 11px; font-weight: 900;
+    letter-spacing: var(--tracking-button); padding: 3px 10px; }
+  .car-flavor { margin-top: var(--s2); font-size: var(--fs-micro); font-style: normal; opacity: .85; }
+
+  .select-lower { display: flex; gap: var(--s4); align-items: stretch; }
+  .music { width: 320px; background: var(--navy-deep); border: 3px solid #2c53a8;
+    border-radius: var(--r-panel); padding: var(--s3); display: flex; flex-direction: column; gap: var(--s2); }
+  .music h4 { font-size: 11px; letter-spacing: var(--tracking-arcade); opacity: .75; }
+
+  #music-name { font-weight: 900; font-size: 16px; letter-spacing: var(--tracking-label);
+    color: var(--navy-deep);
+    background: var(--coral); border: 2px solid var(--sun); border-radius: var(--r-ctrl);
+    padding: 9px 12px; }
+  #music-credits { font-size: 10px; opacity: .78; letter-spacing: var(--tracking-label); line-height: 1.5; }
+  .music-hint { font-size: 10px; opacity: .6; letter-spacing: var(--tracking-label); }
+
+  #easy-mode { font: inherit; font-weight: 900; font-size: 13px; letter-spacing: .08em;
+    color: var(--navy-deep); background: #cfd8e6; border: 3px solid #2c53a8;
+    border-radius: var(--r-pill); padding: 8px 18px; cursor: pointer;
+    transition: background .14s var(--ease-flat), color .14s var(--ease-flat); }
+  #easy-mode.on { background: var(--sun); border-color: var(--gold); }
+  .easy-row { display: flex; align-items: center; gap: var(--s3); }
+  .easy-what { font-size: 11px; opacity: .8; letter-spacing: var(--tracking-label); }
+
+  .go-row { display: flex; align-items: center; gap: var(--s4); flex-direction: column; }
+  #btn-go { font: inherit; font-weight: 900; font-size: 19px; letter-spacing: .08em;
+    color: var(--navy-deep); background: linear-gradient(180deg, #ffe27a, var(--sun)); border: 0;
+    border-radius: 14px; padding: 13px 34px; box-shadow: 0 5px 0 #b98600; cursor: pointer;
+    transition: transform .14s var(--ease-flat), box-shadow .14s var(--ease-flat); }
+  #btn-go:hover, #btn-go:focus-visible { transform: translateY(-2px); box-shadow: 0 7px 0 #b98600; }
+  .hint { font-size: var(--fs-micro); opacity: .85; letter-spacing: var(--tracking-label);
+    max-width: 900px; text-align: center; line-height: 1.6; }
+
+
+  #hud { position: fixed; inset: 0; display: none; pointer-events: none; z-index: 4; }
+  #hud.show { display: block; }
+  .timer-pod { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); text-align: center; }
+  #clock { font-size: var(--fs-hud-major); font-weight: 900; color: var(--gold);
+    text-shadow: 0 4px 0 var(--navy-deep), 0 8px 18px rgba(0, 0, 0, .4); line-height: 1; }
+  .time-track { width: 240px; height: 12px; margin: var(--s2) auto 0;
+    background: rgba(7, 27, 71, .55); border: 2px solid rgba(246, 251, 255, .6);
+    border-radius: var(--r-pill); overflow: hidden; }
+
+  #time-fill { width: 100%; height: 100%; transform-origin: left;
+    background: linear-gradient(90deg, var(--cyan), var(--sun));
+    transition: transform .45s var(--ease-flat); }
+  #time-fill.low { background: linear-gradient(90deg, var(--coral), #ff8a5e); }
+  .route-track { width: 240px; height: 5px; margin: 6px auto 0; background: rgba(7, 27, 71, .5);
+    border-radius: var(--r-pill); overflow: hidden; }
+  #route-fill { width: 100%; height: 100%; transform-origin: left; transform: scaleX(0);
+    background: var(--white); opacity: .7; transition: transform .45s var(--ease-flat); }
+
+  .speed-pod { position: absolute; right: 26px; bottom: 24px;
+    background: linear-gradient(180deg, #10142a, #070b18); border: 3px solid #35406b;
+    border-radius: var(--r-panel); padding: var(--s3) 18px; text-align: right;
+    box-shadow: inset 0 0 18px rgba(41, 183, 232, .15), 0 6px 16px rgba(0, 0, 0, .45); }
+  #speed { font-size: var(--fs-hud-speed); font-weight: 900; color: var(--cyan); line-height: 1; }
+  .speed-pod .unit { font-size: var(--fs-micro); font-weight: 800; opacity: .7; letter-spacing: .18em; }
+  #drift { position: absolute; left: 26px; bottom: 24px; font-weight: 900;
+    letter-spacing: var(--tracking-button); border: 3px solid var(--cyan); color: var(--cyan);
+    border-radius: var(--r-ctrl); padding: 9px 16px; opacity: .25; transition: opacity .12s linear; }
+  #drift.on { opacity: 1; background: rgba(41, 183, 232, .18); }
+  #drift-tier { position: absolute; left: 26px; bottom: 84px; font-weight: 900; font-size: 26px;
+    color: var(--sun); text-shadow: 0 3px 0 var(--navy-deep); opacity: 0; }
+  #flash { position: absolute; top: 130px; left: 50%; transform: translateX(-50%);
+    font-weight: 900; font-size: var(--fs-result); color: var(--coral);
+    text-shadow: 0 3px 0 var(--navy-deep); opacity: 0; letter-spacing: .06em; }
+  #flash.pop { animation: pop 1.6s ease-out; }
+  #drift-tier.pop { animation: pop2 1.2s ease-out; }
+  @keyframes pop {
+    0% { opacity: 0; transform: translateX(-50%) scale(.6); }
+    12% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+    70% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-50%) scale(1); } }
+  @keyframes pop2 {
+    0% { opacity: 0; transform: scale(.6); }
+    12% { opacity: 1; transform: scale(1.1); }
+    70% { opacity: 1; }
+    100% { opacity: 0; } }
+
+  #fork-callout { position: absolute; top: 190px; left: 50%; display: flex; gap: 14px;
+    opacity: 0; font-weight: 900; letter-spacing: .06em;
+    transform: translateX(-50%) scale(.9);
+    transition: opacity .3s var(--ease-flat), transform .3s var(--ease-flat); }
+  #fork-callout.show { opacity: 1; transform: translateX(-50%) scale(1); }
+  #fork-callout span { background: rgba(13, 42, 102, .8); border: 2px solid var(--sun);
+    border-radius: var(--r-ctrl); padding: var(--s2) 14px; }
+
+
+  #results { background: linear-gradient(180deg, rgba(13, 42, 102, .55), rgba(7, 27, 71, .8));
+    gap: var(--s3); }
+  #result-title { font-size: var(--fs-tagline); font-weight: 900; color: var(--sun);
+    text-shadow: 0 4px 0 var(--navy-deep); text-align: center; }
+  .r-grid { display: grid; grid-template-columns: repeat(2, 220px); gap: var(--s3); margin-top: var(--s3); }
+  .r-cell { background: var(--navy-deep); border: 3px solid #2c53a8; border-radius: 14px;
+    padding: var(--s3); text-align: center; }
+  .r-cell .lbl { font-size: 11px; font-weight: 800; letter-spacing: var(--tracking-arcade); opacity: .75; }
+  .r-cell .val { font-size: var(--fs-result); font-weight: 900; color: var(--cyan); margin-top: var(--s1); }
+  .r-cell .val.gold { color: var(--sun); }
+  .r-cell.is-new { border-color: var(--sun); animation: bestflash 1.2s var(--ease-flat) 2; }
+  @keyframes bestflash { 50% { box-shadow: 0 0 0 4px rgba(255, 210, 63, .45); } }
+  #new-best { font-size: 11px; font-weight: 900; letter-spacing: var(--tracking-arcade);
+    color: var(--sun); min-height: 14px; }
+
+
+  #toast { position: fixed; top: 18px; right: 18px; z-index: 9; background: var(--navy-deep);
+    border: 2px solid var(--cyan); border-radius: var(--r-ctrl); padding: 10px 16px;
+    font-weight: 800; font-size: 13px; opacity: 0; transform: translateY(-8px);
+    transition: opacity .25s var(--ease-flat), transform .25s var(--ease-flat); pointer-events: none; }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  #stage-error { background: rgba(7, 27, 71, .92); gap: var(--s4); text-align: center; padding: var(--s6); }
+  #stage-error h2 { font-size: var(--fs-screen-title); font-weight: 900; color: var(--sun);
+    letter-spacing: var(--tracking-arcade); }
+  #stage-error p { font-size: var(--fs-body); max-width: 640px; line-height: 1.5; }
+  #stage-error code { font-size: 11px; opacity: .7; font-family: ui-monospace, monospace; }
+
+  #log-download { position: fixed; left: 12px; bottom: 8px; z-index: 8; display: none;
+    font: inherit; font-size: 10px; letter-spacing: var(--tracking-label); opacity: .45;
+    background: none; border: 0; color: var(--white); cursor: pointer; text-decoration: underline; }
+  #log-download.show { display: block; }
+
+  #device-notice { display: none; }
+  @media (max-width: 760px) and (hover: none) and (pointer: coarse) {
+    #device-notice { display: flex; position: fixed; inset: 0; z-index: 50;
+      background: var(--navy-deep); align-items: center; justify-content: center;
+      text-align: center; padding: 30px; font-weight: 800; font-size: 18px; line-height: 1.5; }
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    body.fresh-load .logo .word { animation: none !important; opacity: 1; transform: none; }
+    .press-start { animation: none; opacity: 1; }
+    #time-fill, #route-fill { transition: none; }
+    .car-card { transition: none; }
+    .car-card:hover, .car-card.focused { transform: none; box-shadow: none;
+      border-color: var(--sun); border-width: 3px; outline: 3px solid var(--sun); }
+    .car-art { transition: none; }
+    #fork-callout { transition: opacity .001s; transform: translateX(-50%) scale(1); }
+    #flash.pop, #drift-tier.pop { animation: none; opacity: 1; }
+    .r-cell.is-new { animation: none; }
+    #toast { transition: none; }
+  }
+</style>
+</head>
+<body class="fresh-load">
+<canvas id="game-canvas"></canvas>
+
+
+<section class="screen show" id="attract">
+  <div class="demo-top"><span>COASTLINE MOTOR CLUB</span><span>EST. 1986 / EAST COAST</span></div>
+  <div class="logo-wrap">
+    <h1 class="logo">
+      <span class="word w1" data-copy="attract.titleWords.0"></span>
+      <span class="word w2" data-copy="attract.titleWords.1"></span>
+    </h1>
+  </div>
+  <p class="tagline" data-copy="attract.tagline"></p>
+  <p class="subline">AN OPEN ROAD. A FULL TANK. YOUR NEXT GREAT DRIVE.</p>
+  <button class="press-start" id="btn-start" data-copy="attract.start"></button>
+  <div class="demo-footer"><span>DEMO PLAY</span><span>RHODE ISLAND → NEW YORK</span><span>KEYBOARD + CONTROLLER</span></div>
+  <div class="routemap" id="route-map-attract" hidden></div>
+</section>
+
+
+<section class="screen" id="select">
+  <header class="garage-header"><div><span class="eyebrow">COASTLINE RUSH</span><h1>YOUR NEXT RUN</h1></div><span class="trip-tag">EAST COAST TOUR<br>RHODE ISLAND → NEW YORK</span></header>
+  <div class="panel-title" data-copy="select.panelTitle"></div>
+  <div class="cards" id="car-cards"></div>
+  <div class="select-lower">
+    <div class="music">
+      <h4 data-copy="select.musicTitle"></h4>
+      <div id="music-name"></div>
+      <canvas id="music-spectrum" width="640" height="64" aria-label="Live music spectrum"></canvas>
+      <div class="music-hint"><button id="music-prev" aria-label="Previous music track">←</button><span>COASTLINE FM / ▲ ▼</span><button id="music-next" aria-label="Next music track">→</button></div>
+      <h4 data-copy="select.creditsLabel"></h4>
+      <div id="music-credits"></div>
+      <p id="music-status" role="status"></p>
+      <button id="music-retry" hidden>RETRY AUDIO</button>
+    </div>
+    <div class="routemap" id="route-map-select"></div>
+  </div>
+  <div class="easy-row">
+    <button id="easy-mode"></button>
+    <span class="easy-what" data-copy="newInBuild.easyModeWhat"></span>
+  </div>
+  <div class="go-row">
+    <button id="btn-go" data-copy="select.go"></button>
+    <span class="hint" data-copy="select.controls"></span>
+  </div>
+  <button class="back-to-demo" id="btn-demo">ESC / BACK TO DEMO</button>
+</section>
+
+
+<div id="hud">
+  <div class="timer-pod">
+    <div id="clock">75</div>
+    <div class="time-track"><div id="time-fill"></div></div>
+    <div class="route-track"><div id="route-fill"></div></div>
+  </div>
+  <div id="flash"></div>
+  <div id="fork-callout"><span id="fork-left"></span><span id="fork-right"></span></div>
+  <div class="speed-pod"><div id="speed">0</div><div class="unit" data-copy="hud.speedUnit"></div></div>
+  <div id="drift" data-copy="hud.drift"></div>
+  <div id="drift-tier"></div>
+  <div id="drift-score">SCORE 0</div>
+</div>
+
+
+<section class="screen" id="results">
+ <div class="results-panel">
+  <div class="results-topline"><span>COASTLINE RUSH / RUN REPORT</span><span id="new-best"></span></div>
+  <h2 id="result-title"></h2>
+  <p class="results-subtitle" id="result-subtitle"></p>
+  <div class="results-score"><span>DRIFT SCORE</span><strong id="r-score">0</strong><span>POINTS EARNED</span></div>
+  <div class="results-stats">
+    <div><span>BEST SLIDE</span><strong id="r-slide">0 pts</strong></div>
+    <div><span>DRIVING TIME</span><strong id="r-time">0:00.0</strong></div>
+    <div><span>DISTANCE</span><strong id="r-dist">0 m</strong></div>
+    <div id="best-cell"><span>BEST FINISH TIME</span><strong id="best-time">-</strong></div>
+  </div>
+  <div class="results-journey"><span>YOUR ROUTE</span><p id="r-route"></p><div><span id="r-car"></span><span id="r-mode"></span></div></div>
+  <div class="results-footer"><p>Best finish compares this route, car and difficulty.<br>Records stay in this browser.</p><button id="btn-again">Back to garage <span>ENTER / A</span></button></div>
+ </div>
+</section>
+
+
+<section class="screen" id="stage-error">
+  <h2 data-copy="newInBuild.stageFailedTitle"></h2>
+  <p data-copy="newInBuild.stageFailedBody"></p>
+  <code id="stage-error-detail"></code>
+  <button class="press-start" id="btn-error-back" data-copy="results.again"></button>
+</section>
+
+<div id="toast"></div>
+<button id="log-download" data-copy="newInBuild.downloadLog"></button>
+<div id="device-notice" data-copy="micro.wrongDevice"></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
