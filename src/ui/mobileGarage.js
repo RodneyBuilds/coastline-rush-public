@@ -4,6 +4,7 @@ function installMobileGarage() {
   if (!touchDevice) return;
   const garage = document.getElementById("select");
   const header = garage.querySelector(".garage-header");
+  header.querySelector(".trip-tag").textContent = "EXPERIMENTAL MOBILE · DESKTOP RECOMMENDED";
   const tabs = document.createElement("div");
   tabs.className = "mobile-garage-tabs";
   tabs.setAttribute("role", "tablist");
