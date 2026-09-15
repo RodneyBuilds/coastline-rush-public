@@ -2,6 +2,37 @@
 
 A desktop browser arcade driving game with branching coastal routes, traffic, and drifting.
 
+## Screenshots
+
+### Title screen
+
+![Coastline Rush title screen above the coastal road](assets/gallery/title.jpg)
+
+### Choose a ride
+
+Pick from 3 original vehicles, choose music, and set the driving mode in the garage.
+
+![Garage with Trail Mini, Coast Crossover, and Sunset GT](assets/gallery/garage.jpg)
+
+### Race the clock
+
+The arcade race shows the remaining time, speed, and drift score while driving the coast.
+
+![Coast Crossover driving through Edgewood in an arcade race](assets/gallery/coastal-drive.jpg)
+
+### Free Drive
+
+Cruise without a countdown in the Trail Mini, with traffic sharing the road.
+
+![Trail Mini passing coastal scenery and traffic in Free Drive](assets/gallery/free-drive.jpg)
+
+### Review a run
+
+The run report shows the drift score, best slide, driving time, distance, and route.
+This example shows a timed-out run.
+
+![Run report after the timer expires, with driving time and distance](assets/gallery/results.jpg)
+
 ## Play
 
 Requires Node.js 20.19 or newer within 20.x, or Node.js 22.12 or newer, and a browser with WebGL 2.
